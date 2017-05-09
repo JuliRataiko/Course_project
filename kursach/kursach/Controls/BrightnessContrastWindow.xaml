@@ -1,0 +1,24 @@
+﻿<Window x:Class="kursach.Controls.BrightnessContrastWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Controls"
+        mc:Ignorable="d"
+        Title="BrightnessContrastWindow" Height="179.31" Width="346.897" Closed="WindowClosed">
+    <Grid>
+        <Label Content="Яркость" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Height="25" Width="64"/>
+
+        <DockPanel VerticalAlignment="Top" Margin="10,40,10,0">
+            <TextBox Text="{Binding ElementName=BrightnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+            <Slider Name="BrightnessSlider" TickPlacement="BottomRight" TickFrequency="15" IsSnapToTickEnabled="True" Minimum="-255" Maximum="255"  Value="0" ValueChanged="BrightnessSlider_Changed"/>
+        </DockPanel>
+
+        <Label Content="Контрастность" HorizontalAlignment="Left" Margin="100,83,0,0" VerticalAlignment="Top" Height="25" Width="105"/>
+
+        <DockPanel VerticalAlignment="Top" Margin="10,113,10,0">
+            <TextBox Text="{Binding ElementName=ContrastSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+            <Slider Name="ContrastSlider" Minimum="-100" Maximum="100" Value="0" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" ValueChanged="ContrastSlider_Changed"  />
+        </DockPanel>
+    </Grid>
+</Window>

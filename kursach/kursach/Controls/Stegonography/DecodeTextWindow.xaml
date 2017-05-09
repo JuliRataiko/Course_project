@@ -1,0 +1,12 @@
+﻿<Window x:Class="kursach.Controls.DecodeTextWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Controls"
+        mc:Ignorable="d"
+        Title="DecodeTextWindow" Height="300" Width="300">
+    <Grid>
+        <TextBox Name ="ResultText" HorizontalAlignment="Left" Height="249" Margin="10,10,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="272"/>
+    </Grid>
+</Window>

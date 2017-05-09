@@ -28,121 +28,164 @@
             <Setter Property="BorderThickness"
                     Value="0" />
         </Style>
-       
+
         <SolidColorBrush Color="#3399FF" x:Key="BlueIconBrush"/>
 
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="32.8" />
-            <ColumnDefinition />
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="140"
+    <DockPanel>
+        <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF188FB2" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
+            <MenuItem Header="ФАЙЛ" Height="35" >
+                <MenuItem x:Name="Open_item" Header="Открыть" />
+                <MenuItem x:Name="Save_item" Header="Сохранить" />
+                <MenuItem x:Name="Save_as_item" Header="Сохранить как" />
+                <Separator/>
+                <MenuItem x:Name="Quit_item" Header="Выход"  />
+            </MenuItem>
+
+            <MenuItem Header="РЕДАКТИРОВАНИЕ" Height="35">
+                <MenuItem x:Name="Undo_item" Header="Шаг вперёд" />
+                <MenuItem x:Name="Redo_item" Header="Шаг назад"/>
+                <Separator/>
+                <MenuItem x:Name="Discard_item" Header="Отменить изменения" Click="Discard_item_Click"/>
+            </MenuItem>
+
+            <MenuItem Header="ИЗОБРАЖЕНИЕ" Height="35" Padding="16,0" >
+                <MenuItem x:Name="BSC_item" Header="Размер изображения" />
+                <MenuItem x:Name="Mode_item" Header="Поворот" />
+                <MenuItem x:Name="Correction_item" Header="Коррекция" >
+                    <MenuItem x:Name="Contrast" Header="Яркость/Контрастность" Click="Contrast_Click" />
+                    <MenuItem x:Name="Color_balance" Header="Цветовой баланс" Click="Color_balance_Click" />
+                    <MenuItem x:Name="Saturation" Header="Насыщенность" Click="Saturation_Click" />
+                    <MenuItem x:Name="Inversion" Header="Инверсия" Click="Inversion_Click" />
+                    <MenuItem x:Name="Black_wight" Header="Черно-белое" Click="Black_wight_Click" />
+                    <MenuItem x:Name="Sepia" Header="Сепия" Click="Sepia_Click"/>
+                </MenuItem>
+                <MenuItem x:Name="Stenograph_item" Header="Стенография">
+                    <MenuItem x:Name="In_item" Header="Скрыть информацию" Click="In_item_Click" />
+                    <MenuItem x:Name="Out_item" Header="Извлечь информацию" Click="Out_item_Click" />
+                </MenuItem>
+                <MenuItem x:Name="Filter_item" Header="Фильтр">
+                    <MenuItem x:Name="Bck_wight" Header="Шум" />
+                    <MenuItem x:Name="Blaight" Header="Размытие" />
+                    <MenuItem x:Name="Blacwight" Header="Тушь" />
+                    <MenuItem x:Name="Blacwit" Header="Рельеф" />
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="32.8" />
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="140"
                               MinWidth="140" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0" />
-            <RowDefinition />
-        </Grid.RowDefinitions>
-
-
-
-        <Grid Grid.Column="0" Grid.Row="1" Margin="0,2,3.8,-0.2">
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-
+                <RowDefinition Height="0" />
+                <RowDefinition />
             </Grid.RowDefinitions>
-            <ToolBarPanel Grid.Row="0"
-                          Margin="0,-4,0,0.4" Background="#FFE3E2E5">
-                <Button Name="Button_mouse"
+
+
+
+            <Grid Grid.Column="0" Grid.Row="1" Margin="0,2,3.8,-0.2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+
+                </Grid.RowDefinitions>
+                <ToolBarPanel Grid.Row="0"
+                          Margin="0,0,0.2,0" Background="#FFE3E2E5">
+                    <Button Name="Button_mouse"
                     Style="{StaticResource ClearStyle}"
                  
                     ToolTip="Указатель"
                      x:FieldModifier="private" Padding="2" Margin="0,10,0,0">
-                    <Image Source="Images/mouse.png"  />
-                </Button>
-                <Button Name="BrushButton"
+                        <Image Source="Images/mouse.png"  />
+                    </Button>
+                    <Button Name="BrushButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Кисть"
                     x:FieldModifier="private" Padding="2">
-                    <Image Source="Images/brush.png" />
-                </Button>
-                <Button x:Name="Button_Pruning"
+                        <Image Source="Images/brush.png" />
+                    </Button>
+                    <Button x:Name="Button_Pruning"
             		Style="{StaticResource ClearStyle}"            		        	
             		ToolTip="Обрезка"
             		x:FieldModifier="private" Padding="2">
-                    <Image Source="Images/Pruning.png" />
-                </Button>
-                <Button Name="Button_Line"
+                        <Image Source="Images/Pruning.png" />
+                    </Button>
+                    <Button Name="Button_Line"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Линия"
                     x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/Line.png"  />
-                </Button>
-                <Button x:Name="Button_squere"
+                        <Image Source="Images/Line.png"  />
+                    </Button>
+                    <Button x:Name="Button_squere"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Прямоугольник"
             		x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/squere.png"  />
-                </Button>
-                <Button x:Name="Button_circle"
+                        <Image Source="Images/squere.png"  />
+                    </Button>
+                    <Button x:Name="Button_circle"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Эллипс"
             		x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/circle.png" />
-                </Button>
-                <Button x:Name="Button_bitter"
+                        <Image Source="Images/circle.png" />
+                    </Button>
+                    <Button x:Name="Button_bitter"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Стерка"
             		x:FieldModifier="private" Padding="2">
-                    <Image Source="Images/bitter.png" />
-                </Button>
-                <Button x:Name="Button_filling"
+                        <Image Source="Images/bitter.png" />
+                    </Button>
+                    <Button x:Name="Button_filling"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Заливка"
             		x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/filling.png" />
-                </Button>
-                <Button x:Name="Button_gradient"
+                        <Image Source="Images/filling.png" />
+                    </Button>
+                    <Button x:Name="Button_gradient"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Градиент"
             		x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/gradient.png" />
-                </Button>
-                <Button x:Name="Button_text"
+                        <Image Source="Images/gradient.png" />
+                    </Button>
+                    <Button x:Name="Button_text"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Текст"
             		x:FieldModifier="private"  Padding="2">
-                    <Image Source="Images/text.png"  />
-                </Button>
-                <materialDesign:PopupBox 
+                        <Image Source="Images/text.png"  />
+                        
+                    </Button>
+                    <materialDesign:PopupBox 
                                          PlacementMode="BottomAndAlignCentres"
                                          ToolTipService.Placement="Right"
                                         
                                          Opened="PopupBox_OnOpened"
                                          Closed="PopupBox_OnClosed" HorizontalAlignment="Stretch" Margin="0,0,-4,0" RenderTransformOrigin="0.503,0.5">
-                    <materialDesign:PopupBox.Background>
-                        <ImageBrush ImageSource="Images/text.png"/>
-                    </materialDesign:PopupBox.Background>
-                    <StackPanel Orientation="Horizontal">
-                        <Button ToolTip="One with custom opacity" Opacity="0.9" Margin="-2,-4,0,-3" Padding="0,-8,0,0">
-                            <Image Source="Images/text.png" Width="24" Height="24"  />
-                        </Button>
-                        <Button ToolTip="Two" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
-                            <Image Source="Images/text.png"  Width="24" Height="24"/>
-                        </Button>
-                        <Button ToolTip="Three" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
-                            <Image Source="Images/text.png" Width="24" Height="24" />
-                        </Button>
-                    </StackPanel>
-                </materialDesign:PopupBox>
+                            <materialDesign:PopupBox.Background>
+                                <ImageBrush ImageSource="Images/text.png"/>
+                            </materialDesign:PopupBox.Background>
+                            <StackPanel Orientation="Horizontal">
+                                <Button ToolTip="One with custom opacity" Opacity="0.9" Margin="-2,-4,0,-3" Padding="0,-8,0,0">
+                                    <Image Source="Images/text.png" Width="24" Height="24"  />
+                                </Button>
+                                <Button ToolTip="Two" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
+                                    <Image Source="Images/text.png"  Width="24" Height="24"/>
+                                </Button>
+                                <Button ToolTip="Three" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
+                                    <Image Source="Images/text.png" Width="24" Height="24" />
+                                </Button>
+                            </StackPanel>
+                        </materialDesign:PopupBox>
 
 
-            </ToolBarPanel>
+                </ToolBarPanel>
 
-        </Grid>
+            </Grid>
 
-        <GridSplitter Name="LayersSplitter"
+            <GridSplitter Name="LayersSplitter"
                       ResizeDirection="Columns"
                       Grid.Column="2"
                       Grid.RowSpan="2"
@@ -150,9 +193,9 @@
                       VerticalAlignment="Stretch"
                       Width="2"
                       x:FieldModifier="private" Grid.ColumnSpan="2" Margin="0.2,0,139.4,-0.2">
-        </GridSplitter>
+            </GridSplitter>
 
-        <Expander Name="LayersExpander"
+            <Expander Name="LayersExpander"
                   Header="Слои"
                   ExpandDirection="Down"
                   IsExpanded="True"
@@ -160,54 +203,57 @@
                   Grid.Row="0"
                   Grid.RowSpan="2"
                   x:FieldModifier="private" Grid.ColumnSpan="2" Margin="1.2,0,0.4,-0.2">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="25px" />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*" />
-                        <ColumnDefinition Width="24px" />
-                        <ColumnDefinition Width="24px" />
-                    </Grid.ColumnDefinitions>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25px" />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="24px" />
+                            <ColumnDefinition Width="24px" />
+                        </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0"
+                        <Button Grid.Column="0"
                             Style="{StaticResource ClearStyle}"
                             HorizontalContentAlignment="Left"
                             ToolTip="Новый слой">
-                        <Image Source="Images/Layers.png" Width="24" Height="24" />
-                    </Button>
-                    <Button Grid.Column="1"
+                            <Image Source="Images/Layers.png" Width="24" Height="24" />
+                        </Button>
+                        <Button Grid.Column="1"
                             Style="{StaticResource ClearStyle}"                          
                             ToolTip="Поднять слой">
-                        <Button
+                            <Button
                     		Style="{StaticResource ClearStyle}"
                       		ToolTip="Поднять слой" Height="24.8" Width="24">
-                            <Image Source="Images/layer_up.png" Width="24" Height="20" />
+                                <Image Source="Images/layer_up.png" Width="24" Height="20" />
+                            </Button>
                         </Button>
-                    </Button>
-                    <Button Grid.Column="2"
+                        <Button Grid.Column="2"
                             Style="{StaticResource ClearStyle}"                           
                             ToolTip="Опустить слой">
-                        <Button
+                            <Button
                     		Style="{StaticResource ClearStyle}"                    		
                     		ToolTip="Опустить слой" Height="24.8" Width="24">
-                            <Image Source="Images/layer_down.png" Width="24" Height="20" />
+                                <Image Source="Images/layer_down.png" Width="24" Height="20" />
+                            </Button>
                         </Button>
-                    </Button>
-                </Grid>
-                <ListBox Grid.Row="1"
+                    </Grid>
+                    <ListBox Grid.Row="1"
                          Name="LayerList"                         
                          HorizontalContentAlignment="Stretch"
                          x:FieldModifier="private" />
-            </Grid>
-        </Expander>
+                </Grid>
+            </Expander>
+            <ScrollViewer x:Name="CanvasScroll" Grid.Column="1" Margin="0,2,10,0" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel">
+                <Canvas Name="MainCanvas" ClipToBounds="True" Grid.Column="1" Grid.Row="1" x:FieldModifier="private" Margin="1.2,2,1.8,-0.2">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform x:Name="CanvasScaleTransform"/>
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </ScrollViewer>
 
-        <Canvas Name="MainCanvas"
-                ClipToBounds="True"
-                Grid.Column="1"
-                Grid.Row="1"
-                x:FieldModifier="private" Margin="1.2,2,1.8,-0.2" />
-    </Grid>
+        </Grid>
+    </DockPanel>
 </Window>

@@ -1,0 +1,31 @@
+﻿<Window x:Class="kursach.Controls.ColorBalanceControl"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:kursach.Controls"
+        mc:Ignorable="d"
+        Title="ColorBalanceControl" Height="225.241" Width="350.586">
+    <Grid>
+        <Label Content="Красный" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+
+        <DockPanel VerticalAlignment="Top" Margin="10,41,10,0">
+            <TextBox Text="{Binding ElementName=RedSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+            <Slider Name="RedSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="RedSlider_changed"  />
+        </DockPanel>
+
+        <Label Content="Зелёный" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top"/>
+
+        <DockPanel VerticalAlignment="Top" Margin="10,97,10,0">
+            <TextBox Text="{Binding ElementName=GreenSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+            <Slider Name="GreenSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="GreenSlider_Changed"  />
+        </DockPanel>
+
+        <Label Content="Синий" HorizontalAlignment="Left" Margin="10,127,0,0" VerticalAlignment="Top"/>
+
+        <DockPanel VerticalAlignment="Top" Margin="10,153,10,0">
+            <TextBox Text="{Binding ElementName=BlueSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
+            <Slider Name="BlueSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="BlueSlider_Changed"  />
+        </DockPanel>
+    </Grid>
+</Window>

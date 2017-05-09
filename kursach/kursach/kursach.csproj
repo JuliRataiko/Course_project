@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -44,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,6 +67,26 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\BrightnessContrastWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ColorBalanceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Stegonography\DecodeTextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Stegonography\EncodeTextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SaturationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -76,7 +98,23 @@
     <Compile Include="bright.xaml.cs">
       <DependentUpon>bright.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BrightnessContrastWindow.xaml.cs">
+      <DependentUpon>BrightnessContrastWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ColorBalanceControl.xaml.cs">
+      <DependentUpon>ColorBalanceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Stegonography\DecodeTextWindow.xaml.cs">
+      <DependentUpon>DecodeTextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Stegonography\EncodeTextWindow.xaml.cs">
+      <DependentUpon>EncodeTextWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SaturationControl.xaml.cs">
+      <DependentUpon>SaturationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageDetails.cs" />
+    <Compile Include="ImageProcessing\BitmapProcessor.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -142,6 +180,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\лого.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\left.png" />
+    <Resource Include="Images\right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\left-blue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\right-blue.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
