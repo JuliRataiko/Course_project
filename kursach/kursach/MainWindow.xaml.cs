@@ -65,7 +65,7 @@ namespace kursach
 
 			ImageList.ItemsSource = null;
 			ImageList.ItemsSource = images;
-			selectedImageIndex = images.TakeWhile(i => i.FileName == openFileDialog.FileName).Count();
+			selectedImageIndex = images.TakeWhile(i => !(i.Path == openFileDialog.FileName)).Count();
 			ImageList.SelectedIndex = selectedImageIndex;
 		}
 

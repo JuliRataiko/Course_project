@@ -98,7 +98,7 @@ namespace kursach
 
 		private void Inversion_Click(object sender, RoutedEventArgs e)
 		{
-			var tmp = currentCanvasImage.ConvertToBitmap();
+			var tmp = currentCanvasImage.ToBitmap();
 			currentCanvasImage = tmp.ReverseImage();
 			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
 		}
@@ -162,13 +162,13 @@ namespace kursach
 
 		public void EncodeText(string text)
 		{
-			currentCanvasImage.TextToImage(text);
+			currentCanvasImage = currentCanvasImage.EncodeText(text);
 			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
 		}
 
 		public string DecodeText()
 		{
-			return currentCanvasImage.GetTextFromImage();
+			return currentCanvasImage.DecodeText();
 		}
 
 		private void Out_item_Click(object sender, RoutedEventArgs e)
