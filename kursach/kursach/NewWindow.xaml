@@ -5,13 +5,16 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
+     Background="#FFBBB7B7"
      FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="clr-namespace:Maestro.UI"
+		xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         Title="Редактирование"
-        Height="650"
-        Width="1025">
+        ResizeMode="NoResize"
+        Height="688.559"
+        Width="1202.648">
     <Window.Resources>
         <Style
             TargetType="Button"
@@ -37,14 +40,14 @@
             <MenuItem Header="ФАЙЛ" Height="35" >
                 <MenuItem x:Name="Open_item" Header="Открыть" />
                 <MenuItem x:Name="Save_item" Header="Сохранить" />
-                <MenuItem x:Name="Save_as_item" Header="Сохранить как" />
+                <MenuItem x:Name="Save_as_item" Header="Сохранить как" Click="Save_as_item_Click" />
                 <Separator/>
                 <MenuItem x:Name="Quit_item" Header="Выход"  />
             </MenuItem>
 
             <MenuItem Header="РЕДАКТИРОВАНИЕ" Height="35">
-                <MenuItem x:Name="Undo_item" Header="Шаг вперёд" />
-                <MenuItem x:Name="Redo_item" Header="Шаг назад"/>
+                <MenuItem x:Name="Undo_item" Header="Шаг вперёд" Click="Undo_item_Click" />
+                <MenuItem x:Name="Redo_item" Header="Шаг назад" Click="Redo_item_Click"/>
                 <Separator/>
                 <MenuItem x:Name="Discard_item" Header="Отменить изменения" Click="Discard_item_Click"/>
             </MenuItem>
@@ -72,80 +75,114 @@
                 </MenuItem>
             </MenuItem>
         </Menu>
-
+        <!--<ToolBarPanel Height="73" Margin="0" DockPanel.Dock="Top">
+            <ToolBar x:Name="toolBar" HorizontalAlignment="Left" Width="1165" Height="66" Margin="10,0,0,0">
+                <ui:Tools/>
+                <Separator/>
+                <ui:Shapes Width="79"/>
+                <Separator/>
+                <Grid Width="67">
+                    <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="10,5,10,32"/>
+                    <ComboBox x:Name="ThicknessChooser" Height="24" Margin="10,34,0,0" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Left" Width="47">
+                        <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="5px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="8px" HorizontalAlignment="Left" Width="118"/>
+                    </ComboBox>
+                </Grid>
+                <Separator/>
+                <Grid Width="286">
+                    <ComboBox x:Name="FontPicker" Height="24" Margin="10,5,0,0" SelectedIndex="0" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left">
+                        <ComboBoxItem Content="Tahoma" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Calibri" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="Times New Roman" HorizontalAlignment="Left" Width="118"/>
+                    </ComboBox>
+                    <ComboBox x:Name="TextSizePicker" Height="24" Margin="10,33,0,0" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="37">
+                        <ComboBoxItem Content="8" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="12" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="24" HorizontalAlignment="Left" Width="118"/>
+                    </ComboBox>
+                    <Button x:Name="text_bold_button" Content="B" Margin="58,33,0,0" VerticalAlignment="Top" Height="24" Click="text_bold_button_Click" HorizontalAlignment="Left" Width="24"/>
+                    <Button x:Name="text_italic_button" Content="I" HorizontalAlignment="Left" Margin="82,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_italic_button_Click"/>
+                    <Button x:Name="text_underline_button" Content="U" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_underline_button_Click"/>
+                    <TextBox x:Name="textBox" Height="52" TextWrapping="Wrap" Text="Пример текста" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" Margin="135,5,0,0"/>
+                </Grid>
+                <Separator/>
+                <ui:InfoPanel x:Name="Info_panel"/>
+            </ToolBar>
+        </ToolBarPanel>-->
         <Grid>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="32.8" />
-                <ColumnDefinition />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="140"
-                              MinWidth="140" />
+                <ColumnDefinition Width="40" />
+                <ColumnDefinition Width="1287"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-
-
-            <Grid Grid.Column="0" Grid.Row="1" Margin="0,2,3.8,-0.2">
+            <Grid Grid.Column="0" Grid.Row="1" Margin="0,0,0,329" Height="294" VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
 
                 </Grid.RowDefinitions>
-                <ToolBarPanel Grid.Row="0"
-                          Margin="0,0,0.2,0" Background="#FFE3E2E5">
+                <ToolBarPanel Grid.Row="0" Background="#FFE3E2E5">
                     <Button Name="Button_mouse"
                     Style="{StaticResource ClearStyle}"
-                 
                     ToolTip="Указатель"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0">
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Panel.ZIndex="-4" >
                         <Image Source="Images/mouse.png"  />
                     </Button>
-                    <Button Name="BrushButton"
+                    <Button Name="PencilButton"
                     Style="{StaticResource ClearStyle}"
-                    ToolTip="Кисть"
-                    x:FieldModifier="private" Padding="2">
-                        <Image Source="Images/brush.png" />
+                    ToolTip="Карандаш"
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="PencilButton_Click">
+                        <Image Source="Resources/pencil.png"  />
                     </Button>
-                    <Button x:Name="Button_Pruning"
-            		Style="{StaticResource ClearStyle}"            		        	
-            		ToolTip="Обрезка"
-            		x:FieldModifier="private" Padding="2">
-                        <Image Source="Images/Pruning.png" />
+                    <Button Name="EraserButton"
+                    Style="{StaticResource ClearStyle}"
+                    ToolTip="Ластик"
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="EraserButton_Click">
+                        <Image Source="Resources/eraser.png"  />
                     </Button>
-                    <Button Name="Button_Line"
+
+                    <Button Name="FillButton"
+                    Style="{StaticResource ClearStyle}"
+                    ToolTip="Заливка"
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="FillButton_Click">
+                        <Image Source="Resources/fill.png"  />
+                    </Button>
+
+                    <Button Name="TextButton"
+                    Style="{StaticResource ClearStyle}"
+                    ToolTip="Текст"
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="TextButton_Click">
+                        <Image Source="Resources/font.png"  />
+                    </Button>
+
+                    <Button Name="LineButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Линия"
-                    x:FieldModifier="private"  Padding="2">
-                        <Image Source="Images/Line.png"  />
+                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="LineButton_Click">
+                        <Image Source="Resources/diagonal-line.png"  />
                     </Button>
-                    <Button x:Name="Button_squere"
-            		Style="{StaticResource ClearStyle}"               		
-            		ToolTip="Прямоугольник"
-            		x:FieldModifier="private"  Padding="2">
-                        <Image Source="Images/squere.png"  />
+
+                    <Button Name="EllipseButton"
+                    Style="{StaticResource ClearStyle}"                  
+                    ToolTip="Эллипс"
+                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="EllipseButton_Click">
+                        <Image Source="Resources/ellipse.png"  />
                     </Button>
-                    <Button x:Name="Button_circle"
-            		Style="{StaticResource ClearStyle}"               		
-            		ToolTip="Эллипс"
-            		x:FieldModifier="private"  Padding="2">
-                        <Image Source="Images/circle.png" />
+
+                    <Button Name="SquareButton"
+                    Style="{StaticResource ClearStyle}"                  
+                    ToolTip="Прямоугольник"
+                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="SquareButton_Click">
+                        <Image Source="Resources/rectangle.png"  />
                     </Button>
-                    <Button x:Name="Button_bitter"
-            		Style="{StaticResource ClearStyle}"               		
-            		ToolTip="Стерка"
-            		x:FieldModifier="private" Padding="2">
-                        <Image Source="Images/bitter.png" />
-                    </Button>
-                    <Button x:Name="Button_filling"
-            		Style="{StaticResource ClearStyle}"               		
-            		ToolTip="Заливка"
-            		x:FieldModifier="private"  Padding="2">
-                        <Image Source="Images/filling.png" />
-                    </Button>
-                    <Button x:Name="Button_gradient"
+
+                    <!--<Button x:Name="Button_gradient"
             		Style="{StaticResource ClearStyle}"               		
             		ToolTip="Градиент"
             		x:FieldModifier="private"  Padding="2">
@@ -156,7 +193,7 @@
             		ToolTip="Текст"
             		x:FieldModifier="private"  Padding="2">
                         <Image Source="Images/text.png"  />
-                        
+
                     </Button>
                     <materialDesign:PopupBox 
                                          PlacementMode="BottomAndAlignCentres"
@@ -164,21 +201,21 @@
                                         
                                          Opened="PopupBox_OnOpened"
                                          Closed="PopupBox_OnClosed" HorizontalAlignment="Stretch" Margin="0,0,-4,0" RenderTransformOrigin="0.503,0.5">
-                            <materialDesign:PopupBox.Background>
-                                <ImageBrush ImageSource="Images/text.png"/>
-                            </materialDesign:PopupBox.Background>
-                            <StackPanel Orientation="Horizontal">
-                                <Button ToolTip="One with custom opacity" Opacity="0.9" Margin="-2,-4,0,-3" Padding="0,-8,0,0">
-                                    <Image Source="Images/text.png" Width="24" Height="24"  />
-                                </Button>
-                                <Button ToolTip="Two" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
-                                    <Image Source="Images/text.png"  Width="24" Height="24"/>
-                                </Button>
-                                <Button ToolTip="Three" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
-                                    <Image Source="Images/text.png" Width="24" Height="24" />
-                                </Button>
-                            </StackPanel>
-                        </materialDesign:PopupBox>
+                        <materialDesign:PopupBox.Background>
+                            <ImageBrush ImageSource="Images/text.png"/>
+                        </materialDesign:PopupBox.Background>
+                        <StackPanel Orientation="Horizontal">
+                            <Button ToolTip="One with custom opacity" Opacity="0.9" Margin="-2,-4,0,-3" Padding="0,-8,0,0">
+                                <Image Source="Images/text.png" Width="24" Height="24"  />
+                            </Button>
+                            <Button ToolTip="Two" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
+                                <Image Source="Images/text.png"  Width="24" Height="24"/>
+                            </Button>
+                            <Button ToolTip="Three" Margin="-2,-4,0,-3" Padding="0,-10,0,0">
+                                <Image Source="Images/text.png" Width="24" Height="24" />
+                            </Button>
+                        </StackPanel>
+                    </materialDesign:PopupBox>-->
 
 
                 </ToolBarPanel>
@@ -187,22 +224,28 @@
 
             <GridSplitter Name="LayersSplitter"
                       ResizeDirection="Columns"
-                      Grid.Column="2"
                       Grid.RowSpan="2"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
                       Width="2"
-                      x:FieldModifier="private" Grid.ColumnSpan="2" Margin="0.2,0,139.4,-0.2">
-            </GridSplitter>
+                      x:FieldModifier="private" Margin="1098,0,187,0" Grid.Column="1"/>
+
+            <ScrollViewer x:Name="CanvasScroll" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,299,72" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel" Grid.Column="1">
+                <Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="551" Width="1010">
+                    <Canvas.RenderTransform>
+                        <ScaleTransform x:Name="CanvasScaleTransform"/>
+                    </Canvas.RenderTransform>
+                </Canvas>
+            </ScrollViewer>
 
             <Expander Name="LayersExpander"
                   Header="Слои"
                   ExpandDirection="Down"
                   IsExpanded="True"
-                  Grid.Column="2"
+                  Grid.Column="1"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  x:FieldModifier="private" Grid.ColumnSpan="2" Margin="1.2,0,0.4,-0.2">
+                  x:FieldModifier="private" Margin="993,0,132,0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25px" />
@@ -246,14 +289,33 @@
                          x:FieldModifier="private" />
                 </Grid>
             </Expander>
-            <ScrollViewer x:Name="CanvasScroll" Grid.Column="1" Margin="0,2,10,0" Grid.RowSpan="2" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel">
-                <Canvas Name="MainCanvas" ClipToBounds="True" Grid.Column="1" Grid.Row="1" x:FieldModifier="private" Margin="1.2,2,1.8,-0.2">
-                    <Canvas.RenderTransform>
-                        <ScaleTransform x:Name="CanvasScaleTransform"/>
-                    </Canvas.RenderTransform>
-                </Canvas>
-            </ScrollViewer>
 
+            <Grid Name="TextPanel" Grid.Row="1" Margin="0,558,939,0" Height="67" VerticalAlignment="Top" Grid.Column="1">
+                <ComboBox x:Name="FontPicker" Height="24" Margin="10,5,0,0" SelectedIndex="0" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="Tahoma" HorizontalAlignment="Left" Width="118"/>
+                    <ComboBoxItem Content="Calibri" HorizontalAlignment="Left" Width="118"/>
+                    <ComboBoxItem Content="Times New Roman" HorizontalAlignment="Left" Width="118"/>
+                </ComboBox>
+                <ComboBox x:Name="TextSizePicker" Height="24" Margin="10,33,0,0" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="37">
+                    <ComboBoxItem Content="8" HorizontalAlignment="Left" Width="118"/>
+                    <ComboBoxItem Content="12" HorizontalAlignment="Left" Width="118"/>
+                    <ComboBoxItem Content="24" HorizontalAlignment="Left" Width="118"/>
+                </ComboBox>
+                <Button x:Name="text_bold_button" Content="B"  Style="{StaticResource ClearStyle}" ToolTip="Жирный" Margin="58,33,0,0" VerticalAlignment="Top" Height="24" Click="text_bold_button_Click" HorizontalAlignment="Left" Width="24"/>
+                <Button x:Name="text_italic_button" Content="I"  Style="{StaticResource ClearStyle}" ToolTip="Курсив" HorizontalAlignment="Left" Margin="82,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_italic_button_Click"/>
+                <Button x:Name="text_underline_button" Content="U" Style="{StaticResource ClearStyle}" ToolTip="Подчеркнутый" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_underline_button_Click"/>
+                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="Ваш текст АБВГД" Margin="0,0,13,10" Height="52" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="145"/>
+            </Grid>
+
+            <ui:InfoPanel x:Name="Info_panel"
+                  Grid.Row="1" Margin="745,558,0,0" HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Grid.Column="1" Width="243"/>
+            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="0,299,0,285" Grid.RowSpan="2"/>
+            <ComboBox x:Name="ThicknessChooser" Height="27" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="35" Margin="0,343,5,0" Grid.RowSpan="2">
+                <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="5px" HorizontalAlignment="Left" Width="118"/>
+                <ComboBoxItem Content="8px" HorizontalAlignment="Left" Width="118"/>
+            </ComboBox>
         </Grid>
     </DockPanel>
 </Window>

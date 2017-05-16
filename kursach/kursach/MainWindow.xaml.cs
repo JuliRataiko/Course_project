@@ -145,7 +145,7 @@ namespace kursach
 			if (images.Count == 0) return;
 
 			NewWindow newW = new NewWindow(new BitmapImage(new Uri(images.ElementAt(selectedImageIndex).Path)));
-			newW.WindowState = WindowState.Maximized;
+			//newW.WindowState = WindowState.Maximized;
 			newW.ShowDialog();
 		}
 	}

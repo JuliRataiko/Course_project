@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Maestro.UI.Shapes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Maestro.UI"
+             mc:Ignorable="d" Height="64.42" Width="79.064">
+    <Grid Margin="0,0,-3,0">
+        <Button x:Name="line_button" Height="24" VerticalAlignment="Top" Width="24" Margin="10,5,43,0" Click="line_button_Click">
+            <Image Source="pack://application:,,,/Resources/diagonal-line.png"/>
+        </Button>
+        <Button x:Name="rectangle_button" Height="24" VerticalAlignment="Top" Width="24" Margin="10,34,43,0" Click="rectangle_button_Click">
+            <Image Source="pack://application:,,,/Resources/rectangle.png"/>
+        </Button>
+        <Button x:Name="ellipse_button" Height="24" VerticalAlignment="Top" Width="24" Margin="43,5,10,0" Click="ellipse_button_Click">
+            <Image Source="pack://application:,,,/Resources/ellipse.png"/>
+        </Button>
+    </Grid>
+</UserControl>
