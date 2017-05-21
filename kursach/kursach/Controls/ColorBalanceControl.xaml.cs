@@ -41,5 +41,10 @@ namespace kursach.Controls
 		{
 			ControlledWindow.ChangeColorBalance((int)RedSlider.Value, (int)GreenSlider.Value, (int)BlueSlider.Value);
 		}
+
+		private void WindowClosed(object sender, EventArgs e)
+		{
+			ControlledWindow.UpdateCanvasAfterFiltering();
+		}
 	}
 }

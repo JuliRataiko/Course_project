@@ -88,23 +88,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Controls\LayerControl.xaml.cs">
-      <DependentUpon>LayerControl.xaml</DependentUpon>
+    <Compile Include="Canvas.cs" />
+    <Compile Include="GlobalState.cs" />
+    <Compile Include="SettingsWindow.xaml.cs">
+      <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LayerWidget.xaml.cs">
-      <DependentUpon>LayerWidget.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\VisualHost.cs" />
     <Compile Include="Core\Executor.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="InfoPanel.xaml.cs">
       <DependentUpon>InfoPanel.xaml</DependentUpon>
     </Compile>
-    <Page Include="bright.xaml">
+    <Page Include="Controls\BrightnessContrastWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BrightnessContrastWindow.xaml">
+    <Page Include="SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -112,23 +110,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\LayerControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\LayerWidget.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\Stegonography\DecodeTextWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Stegonography\EncodeTextWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SaturationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -144,9 +130,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="bright.xaml.cs">
-      <DependentUpon>bright.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\BrightnessContrastWindow.xaml.cs">
       <DependentUpon>BrightnessContrastWindow.xaml</DependentUpon>
     </Compile>
@@ -159,9 +142,6 @@
     <Compile Include="Controls\Stegonography\EncodeTextWindow.xaml.cs">
       <DependentUpon>EncodeTextWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SaturationControl.xaml.cs">
-      <DependentUpon>SaturationControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ImageDetails.cs" />
     <Compile Include="ImageProcessing\BitmapProcessor.cs" />
     <Compile Include="ImageProcessing\Steganography.cs" />
@@ -172,14 +152,6 @@
     <Page Include="NewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\IconsDictionary.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\ChevronExpanderStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -259,6 +231,29 @@
     <Resource Include="Resources\magnifying-glass.png" />
     <Resource Include="Resources\pencil.png" />
     <Resource Include="Resources\rectangle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Red_Arrow_Left.png" />
+    <Resource Include="Resources\Red_Arrow_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\eraser-512.png" />
+    <Resource Include="Resources\pencil-256.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Cyan_Arrow_Left.png" />
+    <Resource Include="Resources\Cyan_Arrow_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cyan\ellipse.png" />
+    <Resource Include="Resources\cyan\eraser-512.png" />
+    <Resource Include="Resources\cyan\line.png" />
+    <Resource Include="Resources\cyan\pencil.png" />
+    <Resource Include="Resources\cyan\rectangle.png" />
+    <Resource Include="Resources\cyan\text.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cyan\fill.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

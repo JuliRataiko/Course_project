@@ -8,10 +8,10 @@
      FontFamily="{DynamicResource MaterialDesignFont}"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Browsing" Height="800" Width="1000" Icon="Images/лого.png" ResizeMode="CanResize" Background="#FF2E2E2E">
+        Title="Browsing" Height="800" Width="1000" Icon="Images/лого.png" ResizeMode="CanResize" Background="#FFFAFAFA">
 
     <DockPanel>
-        <Menu x:Name="menuBar" Width="Auto" Height="35" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Background="#FF188FB2" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="White">
+        <Menu x:Name="menuBar" Width="Auto" Height="35" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Background="#FF0097A7" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="White">
             <MenuItem Header="ФАЙЛ" Height="35" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >
                 <MenuItem x:Name="Open_item" Header="Открыть" Click="Open_item_Click" />
                 <Separator/>
@@ -26,7 +26,7 @@
 
             <ListBox.Resources>
                 <!-- Set SelectedItem Background here -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DeepSkyBlue"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DarkRed"/>
             </ListBox.Resources>
 
             <ListBox.ItemTemplate>
@@ -81,11 +81,19 @@
         <Grid Margin="1,1,1,0">
 
             <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="416" Height="713" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
-                <Image Source="Images/left-blue.png" Height="158" HorizontalAlignment="Left" Width="34"/>
+                <Image Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="34"/>
             </Button>
 
+            <!--<Image Name="LeftBorder" Margin="10,10,514,10" Panel.ZIndex="1" MouseEnter="LeftBorder_MouseEnter" MouseLeave="LeftBorder_MouseLeave" MouseLeftButtonDown="LeftBorder_MouseLeftButtonDown" MinWidth="450" MinHeight="710">
+                --><!--<Image Name="LeftArrowIcon" Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="38" Margin="10,294,0,281"/>--><!--
+            </Image>-->
+            <!--<Image Name="LeftArrowIcon" Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="38" Margin="10,294,0,281"/>-->
+            <!--<Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="70" Height="58" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,320,0,355" Panel.ZIndex="1" >
+                <Image Source="Resources/Cyan_Arrow_Left.png" Height="auto" HorizontalAlignment="Left" Width="auto"/>
+            </Button>-->
+
             <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="482" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
-                <Image Source="Images/right-blue.png" Height="164" HorizontalAlignment="Right" Width="34" />
+                <Image Source="Resources/Cyan_Arrow_Right.png" Height="164" HorizontalAlignment="Right" Width="34" />
             </Button>
 
             <Image Name="ViewedPhoto" Margin="70,10"/>

@@ -5,9 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
         mc:Ignorable="d"
-        Title="EncodeTextWindow" Height="300" Width="300">
+        Icon="/Images/лого.png"
+        Title="Зашифровать текст" Height="300" Width="300" Background="#FF9E9E9E">
     <Grid>
         <TextBox Name="TextBox" HorizontalAlignment="Left" Height="202" Margin="10,10,0,0" TextWrapping="Wrap" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam varius vestibulum massa, ut mollis lacus efficitur nec. Duis nec nisi lectus. Fusce amet." VerticalAlignment="Top" Width="272" Background="Transparent" BorderBrush="#89000000"/>
-        <Button Name="Encode" Content="Encode" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="84" Click="Encode_Click"/>
+        <Button Name="Encode" Content="Зашифровать" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="84" Click="Encode_Click"/>
     </Grid>
 </Window>

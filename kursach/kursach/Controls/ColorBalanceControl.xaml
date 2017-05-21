@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
+        Icon="/Images/лого.png"
         mc:Ignorable="d"
-        Title="ColorBalanceControl" Height="225.241" Width="350.586">
-    <Grid>
+        Closed="WindowClosed"
+        Title="Баланс цвета" Height="225.241" Width="350.586">
+    <Grid Background="#FF9E9E9E">
         <Label Content="Красный" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
 
         <DockPanel VerticalAlignment="Top" Margin="10,41,10,0">

@@ -4,9 +4,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
+        Icon="/Images/лого.png"
         mc:Ignorable="d"
-        Title="BrightnessContrastWindow" Height="179.31" Width="346.897" Closed="WindowClosed">
-    <Grid>
+        Title="Яркость / Контрасность" Height="179.31" Width="346.897" Closed="WindowClosed">
+    <Grid Background="#FFA6A2A2">
         <Label Content="Яркость" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Height="25" Width="64"/>
 
         <DockPanel VerticalAlignment="Top" Margin="10,40,10,0">

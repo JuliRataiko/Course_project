@@ -5,7 +5,8 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
-     Background="White"
+     Icon="/Images/лого.png"
+     Background="#FFFAFAFA"
      FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -39,7 +40,7 @@
 
     </Window.Resources>
     <DockPanel>
-        <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF188FB2" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
+        <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF0097A7" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
             <MenuItem Header="ФАЙЛ" Height="35" >
                 <MenuItem x:Name="Save_item" Header="Сохранить" />
                 <MenuItem x:Name="Save_as_item" Header="Сохранить как" Click="Save_as_item_Click" />
@@ -48,15 +49,17 @@
             </MenuItem>
 
             <MenuItem Header="РЕДАКТИРОВАНИЕ" Height="35">
-                <MenuItem x:Name="Undo_item" Header="Шаг вперёд" Click="Undo_item_Click" />
-                <MenuItem x:Name="Redo_item" Header="Шаг назад" Click="Redo_item_Click"/>
+                <MenuItem x:Name="UndoItem" Header="Шаг назад" Click="UndoItem_Click" />
+                <MenuItem x:Name="RedoItem" Header="Шаг вперед" Click="RedoItem_Click"/>
                 <Separator/>
-                <MenuItem x:Name="Discard_item" Header="Отменить изменения" Click="Discard_item_Click"/>
+                <MenuItem x:Name="DiscardChangesItem" Header="Отменить изменения" Click="DiscardChangesItem_Click"/>
             </MenuItem>
 
             <MenuItem Header="ИЗОБРАЖЕНИЕ" Height="35" Padding="16,0" >
-                <MenuItem x:Name="BSC_item" Header="Размер изображения" />
-                <MenuItem x:Name="Mode_item" Header="Поворот" />
+                <MenuItem x:Name="RotateMenuItem" Header="Поворот">
+                    <MenuItem x:Name="RotateToLeftItem" Header="Влево" Click="RotateToLeftItem_Click"/>
+                    <MenuItem x:Name="RotateToRightItem" Header="Вправо" Click="RotateToRightItem_Click" />
+                </MenuItem>
                 <MenuItem x:Name="Correction_item" Header="Коррекция" >
                     <MenuItem x:Name="Contrast" Header="Яркость/Контрастность" Click="Contrast_Click" />
                     <MenuItem x:Name="Color_balance" Header="Цветовой баланс" Click="Color_balance_Click" />
@@ -72,6 +75,7 @@
                     <MenuItem x:Name="Illumination_item" Header="Нормализация освещения" Click="Illumination_item_Click" />
                 </MenuItem>
             </MenuItem>
+            <MenuItem Name="SettingsItem" Header="НАСТРОЙКИ" Height="35" Padding="16,0" Click="SettingsItem_Click"/>
         </Menu>
         <!--<ToolBarPanel Height="73" Margin="0" DockPanel.Dock="Top">
             <ToolBar x:Name="toolBar" HorizontalAlignment="Left" Width="1165" Height="66" Margin="10,0,0,0">
@@ -112,73 +116,80 @@
         <Grid>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="40" />
-                <ColumnDefinition Width="1287"/>
+                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="1267"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="0" />
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Grid Grid.Column="0" Grid.Row="1" Margin="0,0,0,329" Height="294" VerticalAlignment="Bottom">
+            <Grid Grid.Column="0" Grid.Row="1" Height="623" VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
+                    <RowDefinition />
+                    <RowDefinition Height="0*"/>
 
                 </Grid.RowDefinitions>
-                <ToolBarPanel Grid.Row="0" Background="White">
-                    <Button Name="ArrowButton"
+                <ToolBarPanel Grid.Row="0" Background="#FFFAFAFA">
+                    <Button x:Name="ArrowButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Указатель"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Panel.ZIndex="-4" Click="ArrowButton_Click" >
-                        <Image Source="Images/mouse.png"  />
+                     x:FieldModifier="private" Padding="2"  Margin="0,10,0,0" Height="50" Width="50" Click="ArrowButton_Click" >
+                        <Image Source="/Resources/cyan/mouse.png"  />
                     </Button>
-                    <Button Name="PencilButton"
+                    <Button x:Name="PencilButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Карандаш"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="PencilButton_Click">
-                        <Image Source="Resources/pencil.png"  />
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="50" Width="50" Click="PencilButton_Click">
+                        <Image Source="/Resources/cyan/pencil.png"  />
                     </Button>
-                    <Button Name="EraserButton"
+                    <Button x:Name="EraserButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Ластик"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="EraserButton_Click">
-                        <Image Source="Resources/eraser.png"  />
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="50" Width="50" Click="EraserButton_Click">
+                        <Image Source="/Resources/cyan/eraser-512.png"  />
                     </Button>
 
-                    <Button Name="FillButton"
+                    <Button x:Name="FillButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Заливка"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="FillButton_Click">
-                        <Image Source="Resources/fill.png"  />
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="50" Height="50" Click="FillButton_Click">
+                        <Image Source="Resources/cyan/fill.png"  />
                     </Button>
 
-                    <Button Name="TextButton"
+                    <Button x:Name="TextButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Текст"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Click="TextButton_Click">
-                        <Image Source="Resources/font.png"  />
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="50" Height="50" Click="TextButton_Click">
+                        <Image Source="Resources/cyan/text.png"  />
                     </Button>
 
-                    <Button Name="LineButton"
+                    <Button x:Name="LineButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Линия"
-                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="LineButton_Click">
-                        <Image Source="Resources/diagonal-line.png"  />
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="LineButton_Click">
+                        <Image Source="Resources/cyan/line.png"  />
                     </Button>
 
-                    <Button Name="EllipseButton"
+                    <Button x:Name="EllipseButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Эллипс"
-                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="EllipseButton_Click">
-                        <Image Source="Resources/ellipse.png"  />
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="EllipseButton_Click">
+                        <Image Source="Resources/cyan/ellipse.png"  />
                     </Button>
 
-                    <Button Name="SquareButton"
+                    <Button x:Name="SquareButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Прямоугольник"
-                    x:FieldModifier="private"  Padding="2" Width="30" Height="30" Click="SquareButton_Click">
-                        <Image Source="Resources/rectangle.png"  />
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="SquareButton_Click">
+                        <Image Source="Resources/cyan/rectangle.png"  />
                     </Button>
+                    <ComboBox x:Name="ThicknessChooser" Height="31" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="40"  Margin="10,10,10,0">
+                        <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="5px" HorizontalAlignment="Left" Width="118"/>
+                        <ComboBoxItem Content="8px" HorizontalAlignment="Left" Width="118"/>
+                    </ComboBox>
 
                     <!--<Button x:Name="Button_gradient"
             		Style="{StaticResource ClearStyle}"               		
@@ -220,7 +231,7 @@
 
             </Grid>
 
-            <GridSplitter Name="LayersSplitter"
+            <!--<GridSplitter Name="LayersSplitter"
                       ResizeDirection="Columns"
                       Grid.RowSpan="2"
                       HorizontalAlignment="Center"
@@ -235,19 +246,19 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </GridSplitter.RenderTransform>
-            </GridSplitter>
+            </GridSplitter>-->
 
             <!--<ScrollViewer x:Name="CanvasScroll" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,299,72" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel" Grid.Column="1">-->
-            <Viewbox Name="CanvasViewBox" Width="Auto" Height="Auto" Grid.ColumnSpan="1" Margin="0,0,294,72" Grid.RowSpan="2" Grid.Column="1">
+            <Viewbox Name="CanvasViewBox" Width="Auto" Height="Auto" Grid.ColumnSpan="1" Margin="10,10,140,45" Grid.RowSpan="2" Grid.Column="1">
 
-                <!--<Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="550" Width="992">-->
-                <Canvas Name="MainCanvas"
+                <Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="604" Width="1194">
+                    <!--<Canvas Name="MainCanvas"
                         ClipToBounds="True"
                         Focusable="True"
                         HorizontalAlignment="Left"
                         VerticalAlignment="Top"
                         x:FieldModifier="private"
-                        Height="550" Width="992">
+                        Height="547" Width="1133">-->
                     <Canvas.RenderTransform>
                         <ScaleTransform x:Name="CanvasScaleTransform"/>
                     </Canvas.RenderTransform>
@@ -255,7 +266,7 @@
             </Viewbox>
             <!--</ScrollViewer>-->
 
-            <Expander Name="LayersExpander"
+            <!--<Expander Name="LayersExpander"
                   Header="Слои"
                   ExpandDirection="Down"
                   IsExpanded="True"
@@ -309,34 +320,12 @@
                          HorizontalContentAlignment="Stretch"
                          x:FieldModifier="private" />
                 </Grid>
-            </Expander>
+            </Expander>-->
 
-            <Grid Name="TextPanel" Grid.Row="1" Margin="0,558,939,0" Height="57" VerticalAlignment="Top" Grid.Column="1">
-                <ComboBox x:Name="FontPicker" Height="24" Margin="10,5,0,0" SelectedIndex="0" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left">
-                    <ComboBoxItem Content="Tahoma" HorizontalAlignment="Left" Width="118"/>
-                    <ComboBoxItem Content="Calibri" HorizontalAlignment="Left" Width="118"/>
-                    <ComboBoxItem Content="Times New Roman" HorizontalAlignment="Left" Width="118"/>
-                </ComboBox>
-                <ComboBox x:Name="TextSizePicker" Height="24" Margin="10,33,0,0" SelectedIndex="0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="37">
-                    <ComboBoxItem Content="8" HorizontalAlignment="Left" Width="118"/>
-                    <ComboBoxItem Content="12" HorizontalAlignment="Left" Width="118"/>
-                    <ComboBoxItem Content="24" HorizontalAlignment="Left" Width="118"/>
-                </ComboBox>
-                <Button x:Name="text_bold_button" Content="B"  Style="{StaticResource ClearStyle}" ToolTip="Жирный" Margin="58,33,0,0" VerticalAlignment="Top" Height="24" Click="text_bold_button_Click" HorizontalAlignment="Left" Width="24"/>
-                <Button x:Name="text_italic_button" Content="I"  Style="{StaticResource ClearStyle}" ToolTip="Курсив" HorizontalAlignment="Left" Margin="82,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_italic_button_Click"/>
-                <Button x:Name="text_underline_button" Content="U" Style="{StaticResource ClearStyle}" ToolTip="Подчеркнутый" HorizontalAlignment="Left" Margin="106,33,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="text_underline_button_Click"/>
-                <TextBox x:Name="textBox" TextWrapping="Wrap" Text="Ваш текст АБВГД" Margin="0,0,13,10" Height="52" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="145"/>
-            </Grid>
+            <!--<ui:InfoPanel x:Name="Info_panel"
+                  Grid.Row="1" Margin="904,558,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Grid.Column="1" Width="243"/>-->
 
-            <ui:InfoPanel x:Name="Info_panel"
-                  Grid.Row="1" Margin="745,558,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Grid.Column="1" Width="243"/>
-            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="0,299,0,285" Grid.RowSpan="2" Background="White"/>
-            <ComboBox x:Name="ThicknessChooser" Height="27" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="35" Margin="0,343,5,0" Grid.RowSpan="2">
-                <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
-                <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>
-                <ComboBoxItem Content="5px" HorizontalAlignment="Left" Width="118"/>
-                <ComboBoxItem Content="8px" HorizontalAlignment="Left" Width="118"/>
-            </ComboBox>
+            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="10,591,10,0" Grid.RowSpan="2" Background="#FFFAFAFA" Height="24" VerticalAlignment="Top"/>
         </Grid>
     </DockPanel>
 </Window>

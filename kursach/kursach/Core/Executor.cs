@@ -40,6 +40,10 @@ namespace Maestro.UI
 		public bool boldText = false;
 		public bool italicText = false;
 		public bool underlinedText = false;
+		public string fontFamily = "Tahoma";
+		public string fontSize = "8";
+		public string text = "Ваш текст АБВГД";
+
 		private Stack<UIElement> lastAddedUiEls = new Stack<UIElement>();
 
 		public void CleanShapes()
@@ -216,11 +220,10 @@ namespace Maestro.UI
 			}
 		}
 
-		public void DrawText(object sender, Point point, ref Canvas canvas, ref TextBox textBox, string fontFamily, string fontSize)
+		public void DrawText(object sender, Point point, ref Canvas canvas)
 		{
 			TextBlock textBlock = new TextBlock();
-			textBlock.Text = textBox.Text;
-			textBox.FontFamily = new FontFamily(fontFamily);
+			textBlock.Text = text;
 			try
 			{
 				textBlock.FontSize = Double.Parse(fontSize);

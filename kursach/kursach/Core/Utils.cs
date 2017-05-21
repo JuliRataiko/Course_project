@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Xml;
 
 namespace Maestro.UI
 {
@@ -140,5 +143,20 @@ namespace Maestro.UI
         {
             return "Размер изображения: " + canvasWidth + "x" + canvasHeight;
         }
-    }
+
+		public static Canvas Clone(this Canvas source)
+		{
+			var newCanvas = new Canvas();
+			newCanvas.Width = source.Width;
+			newCanvas.Height = source.Height;
+			newCanvas.Background = source.Background;
+			newCanvas.Children.Clear();
+			foreach (var child in source.Children)
+			{
+				newCanvas.Children.Add((UIElement)child);
+			}
+
+			return newCanvas;
+		}
+	}
 }

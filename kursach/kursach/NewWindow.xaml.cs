@@ -29,7 +29,9 @@ namespace kursach
 		private BitmapSource currentCanvasImage;
 		private BitmapSource tempImage;
 		const double ScaleRate = 1.1;
-		public ObservableCollection<LayerWidget> LayersWidgets { get; set; }
+		private CanvasController CanvasController { get; set; }
+		private LinkedList<Canvas> CanvasStates { get; set; }
+		private BitmapSource ImageBeforeFiltering { get; set; }
 
 		public NewWindow(BitmapImage image)
 		{
@@ -40,24 +42,29 @@ namespace kursach
 			MainCanvas.Width = image.Width;
 			MainCanvas.Height = image.Height;
 
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
-			LayersWidgets = new ObservableCollection<LayerWidget>();
-			LayerList.DataContext = this;
-			//var xScale = image.Width / MainCanvas.Width;
-			//if(xScale > 1)
-			//{
-			//	MainCanvas.Width = image.Width;
-			//	MainCanvas.Height *= xScale;
-			//}else{
-			//	MainCanvas.Width = image.Width;
+			//CanvasController.UpdateCanvas(currentCanvasImage);
 
-			//}
-
-			//var yScale = image.Height / MainCanvas.Height;
+			CanvasController = new CanvasController(this);
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
-		//private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
+		public Canvas Canvas
+		{
+			get
+			{
+				return MainCanvas;
+			}
+			set
+			{
+				MainCanvas = value;
+			}
+		}
+
+
+
+		//private void CanvasScroll_MouseWheel(object sender, MouseWheelEventArgs e)
 		//{
+		//	e.Handled = true;
 		//	bool handle = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
 		//	if (!handle)
 		//		return;
@@ -74,159 +81,51 @@ namespace kursach
 		//	}
 		//}
 
-		/// <summary>
-		///     Добавление нового слоя на холст и обновление коллекции виджетов
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void LayerAdd_Click(object sender, RoutedEventArgs e)
-		{
-			var layer = new LayerControl(MainCanvas.RenderSize);
-			//layer.VisualHost.ChangeSize(new System.Windows.Size(500, 900));
-			MainCanvas.Children.Add(layer);
-			LayersWidgets.Add(layer.Widget);
-
-			// Перемещение элемента в самый верх списка, для наглядности отображения верхних слоев пользователю
-			LayerWidget last = LayersWidgets.Last();
-			for (int i = LayersWidgets.Count - 1; i > 0; i--)
-			{
-				LayersWidgets[i] = LayersWidgets[i - 1];
-			}
-			LayersWidgets[0] = last;
-
-			Utils.LayersIndexes++;
-
-			if (LayerList.Items.Count > 0)
-				LayerList.SelectedIndex = 0;
-
-			layer.CheckedChanged += SelectLayer;
-			layer.Delete += DeleteLayer;
-		}
-
-		/// <summary>
-		///     Изменение фокуса слоя, выделенного в отображаемом списке виджетов
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void LayerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-		{
-			if (LayerList.SelectedItems.Count > 0)
-			{
-				LayerWidget selectedWidget = LayersWidgets[LayerList.SelectedIndex];
-				UIElement layer = MainCanvas.Children[selectedWidget.ThisLayer.LayerIndex];
-				layer.Focus();
-
-				foreach (LayerControl child in MainCanvas.Children)
-				{
-					if (child != layer)
-						child.NonFocus(null, null);
-				}
-			}
-		}
-
-		/// <summary>
-		///     Выделение слоя в прибиндинном списке
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void SelectLayer(Object sender, LayerControl.CheckedEventArgs e)
-		{
-			if (sender != null && e.IsChecked)
-			{
-				for (int i = 0; i < LayersWidgets.Count; i++)
-				{
-					if (LayersWidgets[i].ThisLayer.LayerIndex == ((LayerControl)sender).LayerIndex)
-					{
-						LayerList.SelectedIndex = i;
-						break;
-					}
-				}
-			}
-		}
-
-		/// <summary>
-		///     Удаление слоя и обновление ZIndex у всех стоящих выше слоев
-		/// </summary>
-		/// <param name="sender"></param>
-		/// <param name="e"></param>
-		private void DeleteLayer(Object sender, EventArgs e)
-		{
-			if (sender != null)
-			{
-				LayersWidgets.Remove(((LayerControl)sender).Widget);
-				MainCanvas.Children.Remove((LayerControl)sender);
-				for (int i = ((LayerControl)sender).LayerIndex; i < MainCanvas.Children.Count; i++)
-				{
-					var upperLayer = (LayerControl)MainCanvas.Children[i];
-					upperLayer.LayerIndex--;
-					int curZIndex = Panel.GetZIndex(upperLayer);
-					Panel.SetZIndex(upperLayer, --curZIndex);
-				}
-			}
-		}
-
-		private void PopupBox_OnOpened(object sender, RoutedEventArgs e)
-		{
-			Console.WriteLine("Just making sure the popup has opened.");
-		}
-
-		private void PopupBox_OnClosed(object sender, RoutedEventArgs e)
-		{
-			Console.WriteLine("Just making sure the popup has closed.");
-		}
-
-		private void CanvasScroll_MouseWheel(object sender, MouseWheelEventArgs e)
-		{
-			e.Handled = true;
-			bool handle = (Keyboard.Modifiers & ModifierKeys.Control) > 0;
-			if (!handle)
-				return;
-
-			if (e.Delta > 0)
-			{
-				CanvasScaleTransform.ScaleX *= ScaleRate;
-				CanvasScaleTransform.ScaleY *= ScaleRate;
-			}
-			else
-			{
-				CanvasScaleTransform.ScaleX /= ScaleRate;
-				CanvasScaleTransform.ScaleY /= ScaleRate;
-			}
-		}
-
 		private void Black_wight_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = currentCanvasImage.ConvertToGrayscale();
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ConvertToGrayscale();
+			MainCanvas.Children.Clear();
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
-		private void Discard_item_Click(object sender, RoutedEventArgs e)
+		private void DiscardChangesItem_Click(object sender, RoutedEventArgs e)
 		{
 			currentCanvasImage = originalImage;
 			MainCanvas.Children.Clear();
 
-			//Utils.executor.ClearCanvas(ref MainCanvas, ref CanvasScaleTransform);
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			//MainCanvas.Width = originalImage.Width;
+			//MainCanvas.Height = originalImage.Height;
+
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		private void Inversion_Click(object sender, RoutedEventArgs e)
 		{
-			var tmp = currentCanvasImage.ToBitmap();
-			currentCanvasImage = tmp.ReverseImage();
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ReverseImage();
+			MainCanvas.Children.Clear();
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		private void Sepia_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = currentCanvasImage.ChangeSepia();
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ChangeSepia();
+			MainCanvas.Children.Clear();
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		private void Contrast_Click(object sender, RoutedEventArgs e)
 		{
 			BrightnessContrastWindow controlPane = new BrightnessContrastWindow(this);
+			tempImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ConvertToGrayscale();
 			controlPane.ResizeMode = ResizeMode.NoResize;
 			controlPane.ShowDialog();
+		}
+
+		private void Illumination_item_Click(object sender, RoutedEventArgs e)
+		{
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).NormalizeIllumination();
+			MainCanvas.Children.Clear();
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		private void Color_balance_Click(object sender, RoutedEventArgs e)
@@ -236,28 +135,28 @@ namespace kursach
 			controlPane.ShowDialog();
 		}
 
-		private void Saturation_Click(object sender, RoutedEventArgs e)
-		{
-			SaturationControl controlPane = new SaturationControl();
-			controlPane.ResizeMode = ResizeMode.NoResize;
-			controlPane.ShowDialog();
-		}
+		//public void ChangeBrightness(int brightnessValue)
+		//{
+		//	tempImage = currentCanvasImage.ChangeBrightness(brightnessValue);
+		//	CanvasController.UpdateCanvas(tempImage);
+		//}
 
-		public void ChangeBrightness(int brightnessValue)
-		{
-			tempImage = currentCanvasImage.ChangeBrightness(brightnessValue);
-			MainCanvas.Background = new ImageBrush { ImageSource = tempImage };
-		}
+		//public void ChangeContrast(int contrastValue)
+		//{
+		//	tempImage = currentCanvasImage.ChangeContrast(contrastValue);
+		//	CanvasController.UpdateCanvas(tempImage);
+		//}
 
-		public void ChangeContrast(int contrastValue)
+		public void ChangeBrightnessAndContrast(int brightnessValue, int contrastValue)
 		{
-			tempImage = currentCanvasImage.ChangeContrast(contrastValue);
+			tempImage = currentCanvasImage.ChangeContrast(contrastValue).ChangeBrightness(brightnessValue);
 			MainCanvas.Background = new ImageBrush { ImageSource = tempImage };
 		}
 
 		public void UpdateCanvasAfterFiltering()
 		{
-			MainCanvas.Background = new ImageBrush { ImageSource = tempImage };
+			currentCanvasImage = tempImage;
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		public void ChangeColorBalance(int red, int green, int blue)
@@ -275,8 +174,8 @@ namespace kursach
 
 		public void EncodeText(string text)
 		{
-			currentCanvasImage = currentCanvasImage.EncodeText(text);
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).EncodeText(text);
+			CanvasController.UpdateCanvas(currentCanvasImage);
 		}
 
 		public string DecodeText()
@@ -291,20 +190,6 @@ namespace kursach
 			controlPane.ShowDialog();
 		}
 
-		private void text_bold_button_Click(object sender, RoutedEventArgs e)
-		{
-			Utils.BooleanTrigger(ref Utils.executor.boldText);
-		}
-
-		private void text_italic_button_Click(object sender, RoutedEventArgs e)
-		{
-			Utils.BooleanTrigger(ref Utils.executor.italicText);
-		}
-
-		private void text_underline_button_Click(object sender, RoutedEventArgs e)
-		{
-			Utils.BooleanTrigger(ref Utils.executor.underlinedText);
-		}
 
 		private void ColorPicker_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<System.Windows.Media.Color?> e)
 		{
@@ -324,9 +209,11 @@ namespace kursach
 			}
 		}
 
+		#region Canvas events
+
 		private void canvas_SizeChanged(object sender, SizeChangedEventArgs e)
 		{
-			Info_panel.CanvasSize = Utils.ComposeCanvaSizeLabelContent(MainCanvas.Width, MainCanvas.Height);
+			//Info_panel.CanvasSize = Utils.ComposeCanvaSizeLabelContent(MainCanvas.Width, MainCanvas.Height);
 		}
 
 		private void canvas_KeyDown(object sender, KeyEventArgs e)
@@ -341,20 +228,18 @@ namespace kursach
 			}
 		}
 
-
 		private void canvas_MouseEnter(object sender, MouseEventArgs e)
 		{
 			Mouse.OverrideCursor = Cursors.Cross;
 			MainCanvas.Focus();
-			Info_panel.Position = Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas));
+			//Info_panel.Position = Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas));
 		}
 
 		private void canvas_MouseLeave(object sender, MouseEventArgs e)
 		{
 			Mouse.OverrideCursor = Cursors.Arrow;
-			Info_panel.Position = "Позиция курсора: ";
+			//Info_panel.Position = "Позиция курсора: ";
 		}
-
 
 		private void Canvas_MouseUp(object sender, MouseButtonEventArgs e)
 		{
@@ -395,9 +280,7 @@ namespace kursach
 						Utils.executor.MakeFloodFill(ref MainCanvas, e.GetPosition(MainCanvas));
 						break;
 					case Utils.Tools.Text:
-						Utils.executor.DrawText(sender, e.GetPosition(MainCanvas), ref MainCanvas, ref textBox,
-							(FontPicker.SelectedItem as ComboBoxItem).Content as string,
-							(TextSizePicker.SelectedItem as ComboBoxItem).Content as string);
+						Utils.executor.DrawText(sender, e.GetPosition(MainCanvas), ref MainCanvas);
 						break;
 				}
 				Utils.executor.CurrentPoint = e.GetPosition(MainCanvas);
@@ -460,8 +343,12 @@ namespace kursach
 				}
 			}
 
-			Info_panel.Position = (Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas)));
+			//Info_panel.Position = (Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas)));
 		}
+
+		#endregion
+
+		#region Toolbar events
 
 		private void PencilButton_Click(object sender, RoutedEventArgs e)
 		{
@@ -498,19 +385,23 @@ namespace kursach
 			Utils.Tool = Utils.Tools.Text;
 		}
 
-		private void Redo_item_Click(object sender, RoutedEventArgs e)
-		{
-			Utils.executor.Undo(ref MainCanvas);
-		}
-
 		private void ArrowButton_Click(object sender, RoutedEventArgs e)
 		{
 			Utils.Tool = Utils.Tools.Arrow;
 		}
 
-		private void Undo_item_Click(object sender, RoutedEventArgs e)
+		#endregion
+		
+		private void RedoItem_Click(object sender, RoutedEventArgs e)
 		{
+			CanvasController.RedoChanges();
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ToBitmapImage();
+		}
 
+		private void UndoItem_Click(object sender, RoutedEventArgs e)
+		{
+			CanvasController.UndoChanges();
+			currentCanvasImage = Utils.GetBitmapFromCanvas(ref MainCanvas).ToBitmapImage();
 		}
 
 		private void Save_as_item_Click(object sender, RoutedEventArgs e)
@@ -529,10 +420,30 @@ namespace kursach
 			}
 		}
 
-		private void Illumination_item_Click(object sender, RoutedEventArgs e)
+		private void RotateToLeftItem_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = currentCanvasImage.NormalizeIllumination();
-			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
+			var canvas = Utils.GetBitmapFromCanvas(ref MainCanvas);
+			canvas.RotateFlip(RotateFlipType.Rotate270FlipNone);
+			currentCanvasImage = canvas.ToBitmapImage();
+			MainCanvas.Width = canvas.Width;
+			MainCanvas.Height = canvas.Height;
+			CanvasController.UpdateCanvas(currentCanvasImage);
+		}
+
+		private void RotateToRightItem_Click(object sender, RoutedEventArgs e)
+		{
+			var canvas = Utils.GetBitmapFromCanvas(ref MainCanvas);
+			canvas.RotateFlip(RotateFlipType.Rotate90FlipNone);
+			currentCanvasImage = canvas.ToBitmapImage();
+			MainCanvas.Width = canvas.Width;
+			MainCanvas.Height = canvas.Height;
+			CanvasController.UpdateCanvas(currentCanvasImage);
+		}
+
+		private void SettingsItem_Click(object sender, RoutedEventArgs e)
+		{
+			var window = new SettingsWindow();
+			window.ShowDialog();
 		}
 	}
 }

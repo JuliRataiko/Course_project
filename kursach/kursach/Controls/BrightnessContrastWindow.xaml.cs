@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Maestro.UI;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,7 +31,8 @@ namespace kursach.Controls
 
 		private void BrightnessSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			ControlledWindow.ChangeBrightness((int)BrightnessSlider.Value);
+			//ControlledWindow.ChangeBrightness((int)BrightnessSlider.Value);
+			ControlledWindow.ChangeBrightnessAndContrast((int)BrightnessSlider.Value, (int)ContrastSlider.Value);
 		}
 
 		private void WindowClosed(object sender, EventArgs e)
@@ -39,7 +42,9 @@ namespace kursach.Controls
 
 		private void ContrastSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
 		{
-			ControlledWindow.ChangeContrast((int)ContrastSlider.Value);
+			//ControlledWindow.ChangeContrast((int)ContrastSlider.Value);
+			ControlledWindow.ChangeBrightnessAndContrast((int)BrightnessSlider.Value, (int)ContrastSlider.Value);
+
 		}
 	}
 }

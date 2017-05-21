@@ -32,6 +32,8 @@ namespace kursach
 		{
 			InitializeComponent();
 			SetLeftRightButtonsState();
+
+			//Stylus.SetIsTouchFeedbackEnabled(right, false);
 		}
 
 		private void Open_item_Click(object sender, RoutedEventArgs e)
@@ -156,5 +158,23 @@ namespace kursach
 			//newW.WindowState = WindowState.Maximized;
 			newW.ShowDialog();
 		}
+
+		//private void LeftBorder_MouseEnter(object sender, MouseEventArgs e)
+		//{
+		//	LeftArrowIcon.Opacity = 1;
+		//}
+
+		//private void LeftBorder_MouseLeave(object sender, MouseEventArgs e)
+		//{
+		//	LeftArrowIcon.Opacity = 0.01;
+		//}
+
+		//private void LeftBorder_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		//{
+		//	selectedImageIndex--;
+		//	ViewedPhoto.Source = new BitmapImage(new Uri(images.ElementAt(selectedImageIndex).Path));
+		//	SetLeftRightButtonsState();
+		//	ImageList.SelectedIndex = selectedImageIndex;
+		//}
 	}
 }

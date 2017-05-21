@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
         mc:Ignorable="d"
-        Title="DecodeTextWindow" Height="300" Width="300">
+        Icon="/Images/лого.png"
+        Title="Расшифровать текст" Height="300" Width="300" Background="#FF9E9E9E">
     <Grid>
         <TextBox Name ="ResultText" HorizontalAlignment="Left" Height="249" Margin="10,10,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="272"/>
     </Grid>

@@ -47,6 +47,23 @@ namespace kursach.ImageProcessing
 			return newFormatedBitmapSource;
 		}
 
+		public static unsafe BitmapSource ConvertToGrayscale(this Bitmap bmp)
+		{
+			BitmapData bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, bmp.PixelFormat);
+			byte* scan0 = (byte*)bData.Scan0.ToPointer();
+
+			for (int i = 0; i < bData.Height; ++i)
+				for (int j = 0; j < bData.Width; ++j)
+				{
+					byte* data = scan0 + i * bData.Stride + j * 4;
+					byte avg = (byte)((*data + *(data + 1) + *(data + 2)) / 3);
+					*data = *(data + 1) = *(data + 2) = avg;
+				}
+
+			bmp.UnlockBits(bData);
+			return new Bitmap(bmp).ToBitmapImage();
+		}
+
 		public static unsafe BitmapImage ReverseImage(this Bitmap source)
 		{
 			for (var y = 0; y <= source.Height - 1; y++)
@@ -139,9 +156,8 @@ namespace kursach.ImageProcessing
 			}
 		}
 
-		public static unsafe BitmapImage ChangeSepia(this BitmapSource source)
+		public static unsafe BitmapImage ChangeSepia(this Bitmap bmp)
 		{
-			var bmp = source.ToBitmap();
 			var bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 			var scan0 = (byte*)bData.Scan0.ToPointer();
 
@@ -154,6 +170,7 @@ namespace kursach.ImageProcessing
 					*(data + 1) = (byte)((tone < 14) ? 0 : tone - 14);
 					*(data + 0) = (byte)((tone < 56) ? 0 : tone - 56);
 				}
+
 			bmp.UnlockBits(bData);
 
 			return new Bitmap(bmp).ToBitmapImage();
@@ -280,21 +297,21 @@ namespace kursach.ImageProcessing
 			return recognizedText;
 		}
 
-		public static BitmapSource EncodeText(this BitmapSource source, string text)
+		public static BitmapSource EncodeText(this Bitmap bPic, string text)
 		{
 			var steganography = new Steganography();
-			var bPic = source.ToBitmap();
+
 			byte[] bytes = Encoding.ASCII.GetBytes(text);
 			int CountText = bytes.Length;
 
 			if (CountText > ((bPic.Width * bPic.Height)) - 4)
 			{
-				return source;
+				return bPic.ToBitmapImage();
 			}
 
 			if (steganography.isEncryption(bPic))
 			{
-				return source;
+				return bPic.ToBitmapImage();
 			}
 
 			byte[] Symbol = Encoding.GetEncoding(1251).GetBytes("/");
@@ -415,10 +432,8 @@ namespace kursach.ImageProcessing
 			return Encoding.GetEncoding(1251).GetString(message);
 		}
 
-		public static unsafe BitmapImage NormalizeIllumination(this BitmapSource source)
+		public static unsafe BitmapImage NormalizeIllumination(this Bitmap bmp)
 		{
-			var bmp = source.ToBitmap();
-
 			BitmapData bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 			var scan0 = (byte*)bData.Scan0.ToPointer(); //Pointer to first byte of image
 			int r = 0, g = 0, b = 0, avg = 0;
@@ -445,7 +460,7 @@ namespace kursach.ImageProcessing
 
 			bmp.UnlockBits(bData);
 
-			return bmp.ToBitmapImage();
+			return new Bitmap(bmp).ToBitmapImage();
 		}
 	}
 }
