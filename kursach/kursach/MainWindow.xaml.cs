@@ -31,6 +31,7 @@ namespace kursach
 		public MainWindow()
 		{
 			InitializeComponent();
+			SetLeftRightButtonsState();
 		}
 
 		private void Open_item_Click(object sender, RoutedEventArgs e)
@@ -122,6 +123,13 @@ namespace kursach
 
 		private void SetLeftRightButtonsState()
 		{
+			if (images.Count == 0)
+			{
+				left.IsEnabled = false;
+				right.IsEnabled = false;
+				return;
+			}
+
 			if (selectedImageIndex == 0)
 			{
 				left.IsEnabled = false;

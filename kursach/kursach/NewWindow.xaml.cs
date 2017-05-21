@@ -3,6 +3,7 @@ using kursach.ImageProcessing;
 using Maestro.UI;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -28,15 +29,31 @@ namespace kursach
 		private BitmapSource currentCanvasImage;
 		private BitmapSource tempImage;
 		const double ScaleRate = 1.1;
+		public ObservableCollection<LayerWidget> LayersWidgets { get; set; }
 
 		public NewWindow(BitmapImage image)
 		{
 			InitializeComponent();
 			this.originalImage = image;
 			currentCanvasImage = image;
+
+			MainCanvas.Width = image.Width;
+			MainCanvas.Height = image.Height;
+
 			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
-			//MainCanvas.Width = image.Width;
-			//MainCanvas.Height = image.Height;
+			LayersWidgets = new ObservableCollection<LayerWidget>();
+			LayerList.DataContext = this;
+			//var xScale = image.Width / MainCanvas.Width;
+			//if(xScale > 1)
+			//{
+			//	MainCanvas.Width = image.Width;
+			//	MainCanvas.Height *= xScale;
+			//}else{
+			//	MainCanvas.Width = image.Width;
+
+			//}
+
+			//var yScale = image.Height / MainCanvas.Height;
 		}
 
 		//private void Canvas_MouseWheel(object sender, MouseWheelEventArgs e)
@@ -56,6 +73,97 @@ namespace kursach
 		//		CanvasScaleTransform.ScaleY /= ScaleRate;
 		//	}
 		//}
+
+		/// <summary>
+		///     Добавление нового слоя на холст и обновление коллекции виджетов
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LayerAdd_Click(object sender, RoutedEventArgs e)
+		{
+			var layer = new LayerControl(MainCanvas.RenderSize);
+			//layer.VisualHost.ChangeSize(new System.Windows.Size(500, 900));
+			MainCanvas.Children.Add(layer);
+			LayersWidgets.Add(layer.Widget);
+
+			// Перемещение элемента в самый верх списка, для наглядности отображения верхних слоев пользователю
+			LayerWidget last = LayersWidgets.Last();
+			for (int i = LayersWidgets.Count - 1; i > 0; i--)
+			{
+				LayersWidgets[i] = LayersWidgets[i - 1];
+			}
+			LayersWidgets[0] = last;
+
+			Utils.LayersIndexes++;
+
+			if (LayerList.Items.Count > 0)
+				LayerList.SelectedIndex = 0;
+
+			layer.CheckedChanged += SelectLayer;
+			layer.Delete += DeleteLayer;
+		}
+
+		/// <summary>
+		///     Изменение фокуса слоя, выделенного в отображаемом списке виджетов
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void LayerList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			if (LayerList.SelectedItems.Count > 0)
+			{
+				LayerWidget selectedWidget = LayersWidgets[LayerList.SelectedIndex];
+				UIElement layer = MainCanvas.Children[selectedWidget.ThisLayer.LayerIndex];
+				layer.Focus();
+
+				foreach (LayerControl child in MainCanvas.Children)
+				{
+					if (child != layer)
+						child.NonFocus(null, null);
+				}
+			}
+		}
+
+		/// <summary>
+		///     Выделение слоя в прибиндинном списке
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void SelectLayer(Object sender, LayerControl.CheckedEventArgs e)
+		{
+			if (sender != null && e.IsChecked)
+			{
+				for (int i = 0; i < LayersWidgets.Count; i++)
+				{
+					if (LayersWidgets[i].ThisLayer.LayerIndex == ((LayerControl)sender).LayerIndex)
+					{
+						LayerList.SelectedIndex = i;
+						break;
+					}
+				}
+			}
+		}
+
+		/// <summary>
+		///     Удаление слоя и обновление ZIndex у всех стоящих выше слоев
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void DeleteLayer(Object sender, EventArgs e)
+		{
+			if (sender != null)
+			{
+				LayersWidgets.Remove(((LayerControl)sender).Widget);
+				MainCanvas.Children.Remove((LayerControl)sender);
+				for (int i = ((LayerControl)sender).LayerIndex; i < MainCanvas.Children.Count; i++)
+				{
+					var upperLayer = (LayerControl)MainCanvas.Children[i];
+					upperLayer.LayerIndex--;
+					int curZIndex = Panel.GetZIndex(upperLayer);
+					Panel.SetZIndex(upperLayer, --curZIndex);
+				}
+			}
+		}
 
 		private void PopupBox_OnOpened(object sender, RoutedEventArgs e)
 		{
@@ -95,7 +203,9 @@ namespace kursach
 		private void Discard_item_Click(object sender, RoutedEventArgs e)
 		{
 			currentCanvasImage = originalImage;
-			Utils.executor.ClearCanvas(ref MainCanvas, ref CanvasScaleTransform);
+			MainCanvas.Children.Clear();
+
+			//Utils.executor.ClearCanvas(ref MainCanvas, ref CanvasScaleTransform);
 			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
 		}
 
@@ -349,6 +459,7 @@ namespace kursach
 						break;
 				}
 			}
+
 			Info_panel.Position = (Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas)));
 		}
 
@@ -389,12 +500,17 @@ namespace kursach
 
 		private void Redo_item_Click(object sender, RoutedEventArgs e)
 		{
+			Utils.executor.Undo(ref MainCanvas);
+		}
 
+		private void ArrowButton_Click(object sender, RoutedEventArgs e)
+		{
+			Utils.Tool = Utils.Tools.Arrow;
 		}
 
 		private void Undo_item_Click(object sender, RoutedEventArgs e)
 		{
-			Utils.executor.Undo(ref MainCanvas);
+
 		}
 
 		private void Save_as_item_Click(object sender, RoutedEventArgs e)
@@ -411,6 +527,12 @@ namespace kursach
 					Utils.GetBitmapFromCanvas(ref MainCanvas).Save(fs, System.Drawing.Imaging.ImageFormat.Jpeg);
 				}
 			}
+		}
+
+		private void Illumination_item_Click(object sender, RoutedEventArgs e)
+		{
+			currentCanvasImage = currentCanvasImage.NormalizeIllumination();
+			MainCanvas.Background = new ImageBrush { ImageSource = currentCanvasImage };
 		}
 	}
 }

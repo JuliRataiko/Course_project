@@ -88,16 +88,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Controls\LayerControl.xaml.cs">
+      <DependentUpon>LayerControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LayerWidget.xaml.cs">
+      <DependentUpon>LayerWidget.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\VisualHost.cs" />
     <Compile Include="Core\Executor.cs" />
     <Compile Include="Core\Utils.cs" />
     <Compile Include="InfoPanel.xaml.cs">
       <DependentUpon>InfoPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Shapes.xaml.cs">
-      <DependentUpon>Shapes.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Tools.xaml.cs">
-      <DependentUpon>Tools.xaml</DependentUpon>
     </Compile>
     <Page Include="bright.xaml">
       <SubType>Designer</SubType>
@@ -110,6 +111,14 @@
     <Page Include="Controls\ColorBalanceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LayerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LayerWidget.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Stegonography\DecodeTextWindow.xaml">
       <SubType>Designer</SubType>
@@ -164,11 +173,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Shapes.xaml">
+    <Page Include="Resources\IconsDictionary.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Tools.xaml">
+    <Page Include="Styles\ChevronExpanderStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

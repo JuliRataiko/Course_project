@@ -5,7 +5,7 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
-     Background="#FFBBB7B7"
+     Background="White"
      FontFamily="{DynamicResource MaterialDesignFont}"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -33,12 +33,14 @@
         </Style>
 
         <SolidColorBrush Color="#3399FF" x:Key="BlueIconBrush"/>
+        <Color x:Key="Color1">#FF2E2E2E</Color>
+        <Color x:Key="Color2">#FF2E2E2E</Color>
+        <Color x:Key="Color3">#FF2E2E2E</Color>
 
     </Window.Resources>
     <DockPanel>
         <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF188FB2" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
             <MenuItem Header="ФАЙЛ" Height="35" >
-                <MenuItem x:Name="Open_item" Header="Открыть" />
                 <MenuItem x:Name="Save_item" Header="Сохранить" />
                 <MenuItem x:Name="Save_as_item" Header="Сохранить как" Click="Save_as_item_Click" />
                 <Separator/>
@@ -58,7 +60,6 @@
                 <MenuItem x:Name="Correction_item" Header="Коррекция" >
                     <MenuItem x:Name="Contrast" Header="Яркость/Контрастность" Click="Contrast_Click" />
                     <MenuItem x:Name="Color_balance" Header="Цветовой баланс" Click="Color_balance_Click" />
-                    <MenuItem x:Name="Saturation" Header="Насыщенность" Click="Saturation_Click" />
                     <MenuItem x:Name="Inversion" Header="Инверсия" Click="Inversion_Click" />
                     <MenuItem x:Name="Black_wight" Header="Черно-белое" Click="Black_wight_Click" />
                     <MenuItem x:Name="Sepia" Header="Сепия" Click="Sepia_Click"/>
@@ -68,10 +69,7 @@
                     <MenuItem x:Name="Out_item" Header="Извлечь информацию" Click="Out_item_Click" />
                 </MenuItem>
                 <MenuItem x:Name="Filter_item" Header="Фильтр">
-                    <MenuItem x:Name="Bck_wight" Header="Шум" />
-                    <MenuItem x:Name="Blaight" Header="Размытие" />
-                    <MenuItem x:Name="Blacwight" Header="Тушь" />
-                    <MenuItem x:Name="Blacwit" Header="Рельеф" />
+                    <MenuItem x:Name="Illumination_item" Header="Нормализация освещения" Click="Illumination_item_Click" />
                 </MenuItem>
             </MenuItem>
         </Menu>
@@ -127,11 +125,11 @@
                     <RowDefinition Height="*" />
 
                 </Grid.RowDefinitions>
-                <ToolBarPanel Grid.Row="0" Background="#FFE3E2E5">
-                    <Button Name="Button_mouse"
+                <ToolBarPanel Grid.Row="0" Background="White">
+                    <Button Name="ArrowButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Указатель"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Panel.ZIndex="-4" >
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="30" Height="30" Panel.ZIndex="-4" Click="ArrowButton_Click" >
                         <Image Source="Images/mouse.png"  />
                     </Button>
                     <Button Name="PencilButton"
@@ -227,16 +225,35 @@
                       Grid.RowSpan="2"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Stretch"
-                      Width="2"
-                      x:FieldModifier="private" Margin="1098,0,187,0" Grid.Column="1"/>
+                      Width="160"
+                      x:FieldModifier="private" Margin="994,0,133,0" Grid.Column="1" RenderTransformOrigin="0.5,0.5">
+                <GridSplitter.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="-1"/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </GridSplitter.RenderTransform>
+            </GridSplitter>
 
-            <ScrollViewer x:Name="CanvasScroll" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,299,72" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel" Grid.Column="1">
-                <Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="551" Width="1010">
+            <!--<ScrollViewer x:Name="CanvasScroll" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,299,72" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel" Grid.Column="1">-->
+            <Viewbox Name="CanvasViewBox" Width="Auto" Height="Auto" Grid.ColumnSpan="1" Margin="0,0,294,72" Grid.RowSpan="2" Grid.Column="1">
+
+                <!--<Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="550" Width="992">-->
+                <Canvas Name="MainCanvas"
+                        ClipToBounds="True"
+                        Focusable="True"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        x:FieldModifier="private"
+                        Height="550" Width="992">
                     <Canvas.RenderTransform>
                         <ScaleTransform x:Name="CanvasScaleTransform"/>
                     </Canvas.RenderTransform>
                 </Canvas>
-            </ScrollViewer>
+            </Viewbox>
+            <!--</ScrollViewer>-->
 
             <Expander Name="LayersExpander"
                   Header="Слои"
@@ -245,7 +262,7 @@
                   Grid.Column="1"
                   Grid.Row="0"
                   Grid.RowSpan="2"
-                  x:FieldModifier="private" Margin="993,0,132,0">
+                  x:FieldModifier="private" Margin="993,0,0,10" Background="White" HorizontalAlignment="Left" Width="154" BorderBrush="Black">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="25px" />
@@ -261,7 +278,9 @@
                         <Button Grid.Column="0"
                             Style="{StaticResource ClearStyle}"
                             HorizontalContentAlignment="Left"
+                            Click="LayerAdd_Click"
                             ToolTip="Новый слой">
+
                             <Image Source="Images/Layers.png" Width="24" Height="24" />
                         </Button>
                         <Button Grid.Column="1"
@@ -284,13 +303,15 @@
                         </Button>
                     </Grid>
                     <ListBox Grid.Row="1"
-                         Name="LayerList"                         
+                         Name="LayerList"
+                         ItemsSource="{Binding LayersWidgets, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         SelectionChanged="LayerList_SelectionChanged"
                          HorizontalContentAlignment="Stretch"
                          x:FieldModifier="private" />
                 </Grid>
             </Expander>
 
-            <Grid Name="TextPanel" Grid.Row="1" Margin="0,558,939,0" Height="67" VerticalAlignment="Top" Grid.Column="1">
+            <Grid Name="TextPanel" Grid.Row="1" Margin="0,558,939,0" Height="57" VerticalAlignment="Top" Grid.Column="1">
                 <ComboBox x:Name="FontPicker" Height="24" Margin="10,5,0,0" SelectedIndex="0" VerticalAlignment="Top" Width="120" HorizontalAlignment="Left">
                     <ComboBoxItem Content="Tahoma" HorizontalAlignment="Left" Width="118"/>
                     <ComboBoxItem Content="Calibri" HorizontalAlignment="Left" Width="118"/>
@@ -308,8 +329,8 @@
             </Grid>
 
             <ui:InfoPanel x:Name="Info_panel"
-                  Grid.Row="1" Margin="745,558,0,0" HorizontalAlignment="Left" Height="67" VerticalAlignment="Top" Grid.Column="1" Width="243"/>
-            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="0,299,0,285" Grid.RowSpan="2"/>
+                  Grid.Row="1" Margin="745,558,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Grid.Column="1" Width="243"/>
+            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="0,299,0,285" Grid.RowSpan="2" Background="White"/>
             <ComboBox x:Name="ThicknessChooser" Height="27" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="35" Margin="0,343,5,0" Grid.RowSpan="2">
                 <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
                 <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>

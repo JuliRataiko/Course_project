@@ -414,5 +414,38 @@ namespace kursach.ImageProcessing
 
 			return Encoding.GetEncoding(1251).GetString(message);
 		}
+
+		public static unsafe BitmapImage NormalizeIllumination(this BitmapSource source)
+		{
+			var bmp = source.ToBitmap();
+
+			BitmapData bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
+			var scan0 = (byte*)bData.Scan0.ToPointer(); //Pointer to first byte of image
+			int r = 0, g = 0, b = 0, avg = 0;
+			for (int i = 0; i < bData.Height; ++i)
+				for (int j = 0; j < bData.Width; ++j)
+				{
+					byte* data = scan0 + i * bData.Stride + j * 3;
+					r += *(data + 2);
+					g += *(data + 1);
+					b += *data;
+				}
+			r /= bData.Height * bData.Width;
+			g /= bData.Height * bData.Width;
+			b /= bData.Height * bData.Width;
+			avg = ((r + g + b) / 3);
+			for (int i = 0; i < bData.Height; ++i)
+				for (int j = 0; j < bData.Width; ++j)
+				{
+					byte* data = scan0 + i * bData.Stride + j * 3;
+					*(data + 2) = (byte)(*(data + 2) * avg / r);
+					*(data + 1) = (byte)(*(data + 1) * avg / g);
+					*data = (byte)(*(data) * avg / b);
+				}
+
+			bmp.UnlockBits(bData);
+
+			return bmp.ToBitmapImage();
+		}
 	}
 }

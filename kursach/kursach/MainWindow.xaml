@@ -14,8 +14,6 @@
         <Menu x:Name="menuBar" Width="Auto" Height="35" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Background="#FF188FB2" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="White">
             <MenuItem Header="ФАЙЛ" Height="35" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >
                 <MenuItem x:Name="Open_item" Header="Открыть" Click="Open_item_Click" />
-                <MenuItem x:Name="Save_item" Header="Сохранить" />
-                <MenuItem x:Name="Save_as_item" Header="Сохранить как" />
                 <Separator/>
                 <MenuItem x:Name="Quit_item" Header="Выход"  />
             </MenuItem>
@@ -28,7 +26,7 @@
 
             <ListBox.Resources>
                 <!-- Set SelectedItem Background here -->
-                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Yellow"/>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DeepSkyBlue"/>
             </ListBox.Resources>
 
             <ListBox.ItemTemplate>
@@ -82,12 +80,12 @@
 
         <Grid Margin="1,1,1,0">
 
-            <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="416" Height="713" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" >
-                <Image Source="Images/left-blue.png" Height="158" HorizontalAlignment="Left" Width="48"/>
+            <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="416" Height="713" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
+                <Image Source="Images/left-blue.png" Height="158" HorizontalAlignment="Left" Width="34"/>
             </Button>
 
-            <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="482" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" >
-                <Image Source="Images/right-blue.png" Height="164" HorizontalAlignment="Right" Width="47" />
+            <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="482" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
+                <Image Source="Images/right-blue.png" Height="164" HorizontalAlignment="Right" Width="34" />
             </Button>
 
             <Image Name="ViewedPhoto" Margin="70,10"/>
