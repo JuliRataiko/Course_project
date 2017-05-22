@@ -116,7 +116,7 @@
         <Grid>
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="60" />
+                <ColumnDefinition Width="50" />
                 <ColumnDefinition Width="1267"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
@@ -134,57 +134,57 @@
                     <Button x:Name="ArrowButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Указатель"
-                     x:FieldModifier="private" Padding="2"  Margin="0,10,0,0" Height="50" Width="50" Click="ArrowButton_Click" >
+                     x:FieldModifier="private" Padding="2"  Margin="0,10,0,0" Height="40" Width="40" Click="ArrowButton_Click" >
                         <Image Source="/Resources/cyan/mouse.png"  />
                     </Button>
                     <Button x:Name="PencilButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Карандаш"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="50" Width="50" Click="PencilButton_Click">
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="40" Width="40" Click="PencilButton_Click">
                         <Image Source="/Resources/cyan/pencil.png"  />
                     </Button>
                     <Button x:Name="EraserButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Ластик"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="50" Width="50" Click="EraserButton_Click">
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Height="40" Width="40" Click="EraserButton_Click">
                         <Image Source="/Resources/cyan/eraser-512.png"  />
                     </Button>
 
                     <Button x:Name="FillButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Заливка"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="50" Height="50" Click="FillButton_Click">
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="40" Height="40" Click="FillButton_Click">
                         <Image Source="Resources/cyan/fill.png"  />
                     </Button>
 
                     <Button x:Name="TextButton"
                     Style="{StaticResource ClearStyle}"
                     ToolTip="Текст"
-                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="50" Height="50" Click="TextButton_Click">
+                     x:FieldModifier="private" Padding="2" Margin="0,10,0,0" Width="40" Height="40" Click="TextButton_Click">
                         <Image Source="Resources/cyan/text.png"  />
                     </Button>
 
                     <Button x:Name="LineButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Линия"
-                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="LineButton_Click">
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="40" Height="40" Click="LineButton_Click">
                         <Image Source="Resources/cyan/line.png"  />
                     </Button>
 
                     <Button x:Name="EllipseButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Эллипс"
-                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="EllipseButton_Click">
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="40" Height="40" Click="EllipseButton_Click">
                         <Image Source="Resources/cyan/ellipse.png"  />
                     </Button>
 
                     <Button x:Name="SquareButton"
                     Style="{StaticResource ClearStyle}"                  
                     ToolTip="Прямоугольник"
-                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="50" Height="50" Click="SquareButton_Click">
+                    x:FieldModifier="private"  Padding="2"  Margin="0,10,0,0" Width="40" Height="40" Click="SquareButton_Click">
                         <Image Source="Resources/cyan/rectangle.png"  />
                     </Button>
-                    <ComboBox x:Name="ThicknessChooser" Height="31" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="40"  Margin="10,10,10,0">
+                    <ComboBox x:Name="ThicknessChooser" Height="29" SelectedIndex="0" SelectionChanged="ThicknessChooser_SelectionChanged" VerticalAlignment="Top" HorizontalAlignment="Center" Width="40"  Margin="5,10,5,0">
                         <ComboBoxItem Content="1px" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="3px" HorizontalAlignment="Left" Width="118"/>
                         <ComboBoxItem Content="5px" HorizontalAlignment="Left" Width="118"/>
@@ -249,9 +249,9 @@
             </GridSplitter>-->
 
             <!--<ScrollViewer x:Name="CanvasScroll" Grid.Row="0" Grid.RowSpan="2" Margin="0,0,299,72" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" PreviewMouseWheel="CanvasScroll_MouseWheel" Grid.Column="1">-->
-            <Viewbox Name="CanvasViewBox" Width="Auto" Height="Auto" Grid.ColumnSpan="1" Margin="10,10,140,45" Grid.RowSpan="2" Grid.Column="1">
+            <Viewbox Name="CanvasViewBox" Width="Auto" Height="Auto" Grid.ColumnSpan="1" Margin="10,10,130,10" Grid.RowSpan="2" Grid.Column="1">
 
-                <Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="604" Width="1194">
+                <Canvas Name="MainCanvas" ClipToBounds="True" Focusable="True" HorizontalAlignment="Left" VerticalAlignment="Top" SizeChanged="canvas_SizeChanged" PreviewKeyDown="canvas_KeyDown"  MouseEnter="canvas_MouseEnter" MouseLeave="canvas_MouseLeave" PreviewMouseDown="Canvas_MouseDown" PreviewMouseMove="canvas_MouseMove" PreviewMouseUp="Canvas_MouseUp" x:FieldModifier="private" Height="643" Width="1194">
                     <!--<Canvas Name="MainCanvas"
                         ClipToBounds="True"
                         Focusable="True"
@@ -325,7 +325,7 @@
             <!--<ui:InfoPanel x:Name="Info_panel"
                   Grid.Row="1" Margin="904,558,0,0" HorizontalAlignment="Left" Height="57" VerticalAlignment="Top" Grid.Column="1" Width="243"/>-->
 
-            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="10,591,10,0" Grid.RowSpan="2" Background="#FFFAFAFA" Height="24" VerticalAlignment="Top"/>
+            <xctk:ColorPicker x:Name="ColorPicker" SelectedColor="Black" SelectedColorChanged="ColorPicker_SelectedColorChanged" Margin="5,592,5,10" Grid.RowSpan="2" Background="#FFFAFAFA"/>
         </Grid>
     </DockPanel>
 </Window>
