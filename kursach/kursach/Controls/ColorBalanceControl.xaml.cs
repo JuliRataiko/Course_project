@@ -25,6 +25,7 @@ namespace kursach.Controls
 		{
 			ControlledWindow = controlledWindow;
 			InitializeComponent();
+			ControlledWindow.PrepareCanvasForFiltering();
 		}
 
 		private void RedSlider_changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -45,6 +46,14 @@ namespace kursach.Controls
 		private void WindowClosed(object sender, EventArgs e)
 		{
 			ControlledWindow.UpdateCanvasAfterFiltering();
+		}
+
+		private void CancelButton_Click(object sender, RoutedEventArgs e)
+		{
+			RedSlider.Value = 0;
+			GreenSlider.Value = 0;
+			BlueSlider.Value = 0;
+			this.Close();
 		}
 	}
 }

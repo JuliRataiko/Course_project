@@ -1,4 +1,4 @@
-﻿using Maestro.UI;
+﻿using kursach.Core;
 using System;
 using System.Windows;
 using System.Windows.Controls;
@@ -39,6 +39,9 @@ namespace kursach
 			}
 
 			TextBox.Text = Utils.executor.text;
+			BoldItem.IsSelected = Utils.executor.boldText;
+			ItalianItem.IsSelected = Utils.executor.italianText;
+			UnderlineItem.IsSelected = Utils.executor.underlinedText;
 		}
 
 		private void BoldTextButton_Click(object sender, RoutedEventArgs e)
@@ -48,7 +51,7 @@ namespace kursach
 
 		private void ItalicTextButton_Click(object sender, RoutedEventArgs e)
 		{
-			Utils.BooleanTrigger(ref Utils.executor.italicText);
+			Utils.BooleanTrigger(ref Utils.executor.italianText);
 		}
 
 		private void UnderlineTextButton_Click(object sender, RoutedEventArgs e)

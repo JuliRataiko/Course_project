@@ -6,9 +6,14 @@
         xmlns:local="clr-namespace:kursach.Controls"
         mc:Ignorable="d"
         Icon="/Images/лого.png"
-        Title="Зашифровать текст" Height="300" Width="300" Background="#FF9E9E9E">
+        Title="Зашифровать текст" Height="173" Width="320">
     <Grid>
-        <TextBox Name="TextBox" HorizontalAlignment="Left" Height="202" Margin="10,10,0,0" TextWrapping="Wrap" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam varius vestibulum massa, ut mollis lacus efficitur nec. Duis nec nisi lectus. Fusce amet." VerticalAlignment="Top" Width="272" Background="Transparent" BorderBrush="#89000000"/>
-        <Button Name="Encode" Content="Зашифровать" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" Width="84" Click="Encode_Click"/>
+        <TextBox Name="TextBox"
+                 TextWrapping="Wrap" VerticalAlignment="Stretch"
+                 MinWidth="280"
+                 AcceptsReturn="True"                 
+                 VerticalScrollBarVisibility="Auto"
+                 SpellCheck.IsEnabled="True" Margin="10,10,10,51">Multiline.  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. The quick brown fox jumps over the lazy dog. War and peace. Keep going. Go on. For how long? Not long. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</TextBox>
+        <Button Name="Encode" Content="Зашифровать" HorizontalAlignment="Left" Margin="10,96,0,0" VerticalAlignment="Top" Width="123" Click="Encode_Click"/>
     </Grid>
 </Window>

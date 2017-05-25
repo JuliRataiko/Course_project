@@ -1,4 +1,4 @@
-﻿using Maestro.UI;
+﻿using kursach.Core;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -27,6 +27,7 @@ namespace kursach.Controls
 		{
 			ControlledWindow = controlledWindow;
 			InitializeComponent();
+			ControlledWindow.PrepareCanvasForFiltering();
 		}
 
 		private void BrightnessSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -45,6 +46,13 @@ namespace kursach.Controls
 			//ControlledWindow.ChangeContrast((int)ContrastSlider.Value);
 			ControlledWindow.ChangeBrightnessAndContrast((int)BrightnessSlider.Value, (int)ContrastSlider.Value);
 
+		}
+
+		private void CancelButton_Click(object sender, RoutedEventArgs e)
+		{
+			BrightnessSlider.Value = 0;
+			ContrastSlider.Value = 0;
+			this.Close();
 		}
 	}
 }

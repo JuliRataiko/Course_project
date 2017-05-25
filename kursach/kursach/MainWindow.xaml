@@ -15,7 +15,7 @@
             <MenuItem Header="ФАЙЛ" Height="35" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >
                 <MenuItem x:Name="Open_item" Header="Открыть" Click="Open_item_Click" />
                 <Separator/>
-                <MenuItem x:Name="Quit_item" Header="Выход"  />
+                <MenuItem x:Name="Quit_item" Header="Выход" Click="Quit_item_Click"  />
             </MenuItem>
             <MenuItem Header="РЕДАКТИРОВАТЬ" Height="35" Click="Edit_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>
             <!--<Button Content="Button"  VerticalAlignment="Center" HorizontalAlignment="Right" Height="25" HorizontalContentAlignment="Right" Width="41" Padding="5,4"/>-->
@@ -80,24 +80,27 @@
 
         <Grid Margin="1,1,1,0">
 
-            <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="416" Height="713" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
+            <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" Panel.ZIndex="1" Height="713" Width="411" >
                 <Image Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="34"/>
             </Button>
 
             <!--<Image Name="LeftBorder" Margin="10,10,514,10" Panel.ZIndex="1" MouseEnter="LeftBorder_MouseEnter" MouseLeave="LeftBorder_MouseLeave" MouseLeftButtonDown="LeftBorder_MouseLeftButtonDown" MinWidth="450" MinHeight="710">
-                --><!--<Image Name="LeftArrowIcon" Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="38" Margin="10,294,0,281"/>--><!--
+                -->
+            <!--<Image Name="LeftArrowIcon" Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="38" Margin="10,294,0,281"/>-->
+            <!--
             </Image>-->
             <!--<Image Name="LeftArrowIcon" Source="Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="38" Margin="10,294,0,281"/>-->
             <!--<Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Width="70" Height="58" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,320,0,355" Panel.ZIndex="1" >
                 <Image Source="Resources/Cyan_Arrow_Left.png" Height="auto" HorizontalAlignment="Left" Width="auto"/>
             </Button>-->
 
-            <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="482" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
+            <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="512" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
                 <Image Source="Resources/Cyan_Arrow_Right.png" Height="164" HorizontalAlignment="Right" Width="34" />
             </Button>
 
-            <Image Name="ViewedPhoto" Margin="70,10"/>
-
+            <materialDesign:Card Name="ViewedPhotoCard" Margin="30,10" materialDesign:ShadowAssist.ShadowDepth="Depth5" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                <Image Name="ViewedPhoto"/>
+            </materialDesign:Card>
         </Grid>
     </DockPanel>
 </Window>

@@ -88,21 +88,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Canvas.cs" />
-    <Compile Include="GlobalState.cs" />
-    <Compile Include="SettingsWindow.xaml.cs">
+    <Compile Include="CanvasController.cs" />
+    <Compile Include="Core\CanvasWithPrimitives.cs" />
+    <Compile Include="Controls\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Executor.cs" />
     <Compile Include="Core\Utils.cs" />
-    <Compile Include="InfoPanel.xaml.cs">
-      <DependentUpon>InfoPanel.xaml</DependentUpon>
-    </Compile>
     <Page Include="Controls\BrightnessContrastWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SettingsWindow.xaml">
+    <Page Include="Controls\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -117,10 +114,6 @@
     <Page Include="Controls\Stegonography\EncodeTextWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="InfoPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -260,6 +253,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\cyan\mouse.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cyan\filled_ellipse.png" />
+    <Resource Include="Resources\cyan\filled_rectagnle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

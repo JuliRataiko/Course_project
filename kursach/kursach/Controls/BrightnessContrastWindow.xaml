@@ -6,20 +6,25 @@
         xmlns:local="clr-namespace:kursach.Controls"
         Icon="/Images/лого.png"
         mc:Ignorable="d"
-        Title="Яркость / Контрасность" Height="179.31" Width="346.897" Closed="WindowClosed">
-    <Grid Background="#FFA6A2A2">
-        <Label Content="Яркость" HorizontalAlignment="Left" Margin="112,10,0,0" VerticalAlignment="Top" Height="25" Width="64"/>
+        Title="Яркость / Контрасность" Height="237.31" Width="321.897" Closed="WindowClosed">
+    <Grid Background="White">
 
-        <DockPanel VerticalAlignment="Top" Margin="10,40,10,0">
-            <TextBox Text="{Binding ElementName=BrightnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Name="BrightnessSlider" TickPlacement="BottomRight" TickFrequency="15" IsSnapToTickEnabled="True" Minimum="-255" Maximum="255"  Value="0" ValueChanged="BrightnessSlider_Changed"/>
+        <DockPanel VerticalAlignment="Top" Margin="10,10,10,0">
+            <Label Content="Яркость" HorizontalAlignment="Left"  VerticalAlignment="Bottom" Height="25" Width="55" VerticalContentAlignment="Center"/>
+
+            <!--<TextBox Text="{Binding ElementName=BrightnessSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Height="36" />-->
+            <Slider Name="BrightnessSlider"  TickPlacement="BottomRight" TickFrequency="20" Style="{StaticResource MaterialDesignDiscreteSlider}" IsSnapToTickEnabled="True" Minimum="-255" Maximum="255"  Value="0" ValueChanged="BrightnessSlider_Changed" Width="190" HorizontalContentAlignment="Right" HorizontalAlignment="Right"/>
         </DockPanel>
 
-        <Label Content="Контрастность" HorizontalAlignment="Left" Margin="100,83,0,0" VerticalAlignment="Top" Height="25" Width="105"/>
 
-        <DockPanel VerticalAlignment="Top" Margin="10,113,10,0">
-            <TextBox Text="{Binding ElementName=ContrastSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Name="ContrastSlider" Minimum="-100" Maximum="100" Value="0" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" ValueChanged="ContrastSlider_Changed"  />
+        <DockPanel VerticalAlignment="Top" Margin="10,80,10,0">
+            <Label Content="Контрастность" HorizontalAlignment="Left" VerticalAlignment="Bottom" Height="25" Width="90" VerticalContentAlignment="Center"/>
+
+            <!--<TextBox Text="{Binding ElementName=ContrastSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />-->
+            <Slider Name="ContrastSlider" Minimum="-100" Maximum="100" Value="0" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight" TickFrequency="10" IsSnapToTickEnabled="True" ValueChanged="ContrastSlider_Changed" HorizontalContentAlignment="Right" Width="188" HorizontalAlignment="Right"  />
         </DockPanel>
+
+        <Button Content="Отмена" Name="CancelButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="10,158,0,0" Click="CancelButton_Click"/>
+
     </Grid>
 </Window>

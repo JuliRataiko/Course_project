@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,35 +77,28 @@ namespace kursach.ImageProcessing
 				}
 			}
 
-			//Bitmap tmp = (Bitmap)source.Clone();
-			//BitmapData data = tmp.LockBits(
-			//	new Rectangle(0, 0, tmp.Width, tmp.Height),
-			//	ImageLockMode.ReadWrite,
-			//	tmp.PixelFormat);
-			//int Height = tmp.Height;
-			//int Width = tmp.Width;
-
-
-			//int* bytes = (int*)data.Scan0;
-			//for (int i = Width * Height - 1; i >= 0; i--)
-			//	bytes[i] = ~bytes[i];
-			//source.UnlockBits(data);
-
 			return source.ToBitmapImage();
 		}
 
-		public static Bitmap ConvertToBitmap(this BitmapImage image)
-		{
-			using (var outStream = new MemoryStream())
-			{
-				BitmapEncoder enc = new BmpBitmapEncoder();
-				enc.Frames.Add(BitmapFrame.Create(image));
-				enc.Save(outStream);
-				var bitmap = new Bitmap(outStream);
+		//public static unsafe BitmapImage ReverseImage(this Bitmap source)
+		//{
+		//	Bitmap bmp = (Bitmap)source.Clone();
+		//	BitmapData bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 
-				return new Bitmap(bitmap);
-			}
-		}
+		//	byte* scan0 = (byte*)bData.Scan0.ToPointer(); //Pointer to first byte of image 
+		//	for (int i = 0; i < bData.Height; ++i)
+		//		for (int j = 0; j < bData.Width; ++j)
+		//		{
+		//			byte* data = scan0 + i * bData.Stride + j * 3;
+
+		//			*data = (byte)(0xff - *data); // For B 
+		//			*(data + 1) = (byte)(0xff - *(data + 1)); // For G 
+		//			*(data + 2) = (byte)(0xff - *(data + 2)); // For R 
+		//		}
+		//	bmp.UnlockBits(bData);
+
+		//	return bmp.ToBitmapImage();
+		//}
 
 		public static Bitmap ToBitmap(this BitmapSource source)
 		{
@@ -136,7 +130,7 @@ namespace kursach.ImageProcessing
 			return bitmapImage;
 		}
 
-		public static BitmapImage ConvertToBitmapImage(this BitmapSource source)
+		public static BitmapImage ToBitmapImage(this BitmapSource source)
 		{
 			using (var memoryStream = new MemoryStream())
 			{
@@ -199,7 +193,7 @@ namespace kursach.ImageProcessing
 		{
 			var bmp = source.ToBitmap();
 
-			if (contrastValue < -100 || contrastValue > 100) return source.ConvertToBitmapImage();
+			if (contrastValue < -100 || contrastValue > 100) return source.ToBitmapImage();
 
 			var bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
 			var scan0 = (byte*)bmpData.Scan0.ToPointer();
@@ -237,64 +231,6 @@ namespace kursach.ImageProcessing
 			bmp.UnlockBits(bData);
 
 			return bmp.ToBitmapImage();
-		}
-
-		public static BitmapSource TextToImage(this BitmapSource source, string text)
-		{
-			var bmp = source.ToBitmap();
-			if (text.Length * 4 > bmp.Height * bmp.Width)
-			{
-				return source;
-			}
-
-			var index = 0;
-			bmp.SetPixel(0, 0, Color.FromArgb(text.Length));
-
-			for (var i = 0; i < bmp.Width; i++)
-				for (var j = 0; j < bmp.Height; j++)
-				{
-					var pixel = bmp.GetPixel(i, j);
-					byte red = pixel.R,
-						 green = pixel.G,
-						 blue = pixel.B,
-						 alpha = pixel.A;
-					var symbol = text[index++];
-					red &= (byte)Convert.ToInt32("11111100", 2); green &= (byte)Convert.ToInt32("11111100", 2); blue &= (byte)Convert.ToInt32("11111100", 2); alpha &= (byte)Convert.ToInt32("11111100", 2);
-					byte newRed = (byte)((symbol & (byte)Convert.ToInt32("11000000", 2)) >> 6), newGreen = (byte)(symbol & (byte)Convert.ToInt32("00110000", 2) >> 4), newBlue = (byte)(symbol & (byte)Convert.ToInt32("00001100") >> 2), newAlpha = (byte)(symbol & (byte)Convert.ToInt32("00000011", 2));
-					bmp.SetPixel(i, j, Color.FromArgb(alpha | newAlpha, red | newRed, green | newGreen, blue | newBlue));
-
-					if (index >= text.Length)
-					{
-						return bmp.ToBitmapImage();
-					}
-				}
-
-			return bmp.ToBitmapImage();
-		}
-
-		public static string GetTextFromImage(this BitmapSource source)
-		{
-			var bmp = source.ToBitmap();
-			var recognizedText = string.Empty;
-			var imageLength = bmp.GetPixel(0, 0).ToArgb();
-
-			for (var i = 0; i < bmp.Width; i++)
-				for (var j = 0; j < bmp.Height; j++)
-				{
-					var pixel = bmp.GetPixel(i, j);
-					byte r = (byte)((pixel.R & (byte)Convert.ToInt32("11", 2)) << 6),
-					 g = (byte)(pixel.G & (byte)Convert.ToInt32("11", 2) << 4),
-					 b = (byte)(pixel.B & (byte)Convert.ToInt32("11", 2) << 2),
-					 a = (byte)(pixel.A & (byte)Convert.ToInt32("11", 2));
-					recognizedText += (char)(r | g | b | a);
-
-					if (recognizedText.Length == imageLength)
-					{
-						return recognizedText;
-					}
-				}
-
-			return recognizedText;
 		}
 
 		public static BitmapSource EncodeText(this Bitmap bPic, string text)
@@ -432,6 +368,57 @@ namespace kursach.ImageProcessing
 			return Encoding.GetEncoding(1251).GetString(message);
 		}
 
+		//public static BitmapSource TextToImage(this Bitmap bmp, string text)
+		//{
+		//	if (text.Length * 4 > bmp.Height * bmp.Width) return bmp.ToBitmapImage();
+		//	int i_for_string = 0;
+		//	bmp.SetPixel(0, 0, Color.FromArgb(text.Length));
+		//	bmp.SetPixel(0, 1, Color.FromArgb(0x169));
+		//	//bmp.SetResolution(72, 72);
+		//	for (int i = 0; i < bmp.Height; i++)
+		//		for (int j = 2; j < bmp.Width; j++)
+		//		{
+		//			Color c = bmp.GetPixel(i, j);
+		//			byte r = c.R,
+		//			g = c.G,
+		//			b = c.B,
+		//			a = c.A;
+		//			char symbol = text[i_for_string++];
+		//			r &= 0xfc; g &= 0xfc; b &= 0xfc; a &= 0xfc;
+		//			byte new_r = (byte)((symbol & 0xc0) >> 6),
+		//				 new_g = (byte)((symbol & 0x30) >> 4),
+		//				 new_b = (byte)((symbol & 0xc) >> 2),
+		//				 new_a = (byte)(symbol & 0x3);
+		//			bmp.SetPixel(i, j, Color.FromArgb(a | new_a, r | new_r, g | new_g, b | new_b));
+		//			if (i_for_string >= text.Length) return bmp.ToBitmapImage();
+		//		}
+
+		//	return bmp.ToBitmapImage();
+		//}
+
+		//public static string GetTextFromImage(this BitmapSource source)
+		//{
+		//	var bmp = source.ToBitmap();
+		//	string rc = "";
+		//	int length = bmp.GetPixel(0, 0).ToArgb();
+		//	// if (bmp.VerticalResolution != 72) return "DPI изображения не соответствует требуемому";
+		//	if (bmp.GetPixel(0, 1).ToArgb() != 0x169) return "Изображение не содержит стеганографии";
+		//	for (int j = 0; j < bmp.Height; j++)
+		//	{
+		//		for (int k = 2; k < bmp.Width; k++)
+		//		{
+		//			Color c = bmp.GetPixel(j, k);
+		//			byte r = (byte)((c.R & 0x3) << 6),
+		//			g = (byte)((c.G & 0x3) << 4),
+		//			b = (byte)((c.B & 0x3) << 2),
+		//			a = (byte)(c.A & 0x3);
+		//			rc += (char)(r | g | b | a);
+		//			if (rc.Length == length) return rc;
+		//		}
+		//	}
+		//	return rc;
+		//}
+
 		public static unsafe BitmapImage NormalizeIllumination(this Bitmap bmp)
 		{
 			BitmapData bData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, System.Drawing.Imaging.PixelFormat.Format24bppRgb);
@@ -461,6 +448,158 @@ namespace kursach.ImageProcessing
 			bmp.UnlockBits(bData);
 
 			return new Bitmap(bmp).ToBitmapImage();
+		}
+
+		public static BitmapImage ApplyBlur(this Bitmap sourceBitmap)
+		{
+			BitmapData sourceData = sourceBitmap.LockBits(new Rectangle(0, 0, sourceBitmap.Width, sourceBitmap.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			double factor = 1.0 / 81.0;
+			int bias = 0;
+
+			var filterMatrix = new double[,]
+				{ { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1},
+				  { 1, 1, 1, 1, 1, 1, 1, 1, 1}, };
+
+			byte[] pixelBuffer = new byte[sourceData.Stride * sourceData.Height];
+			byte[] resultBuffer = new byte[sourceData.Stride * sourceData.Height];
+
+			Marshal.Copy(sourceData.Scan0, pixelBuffer, 0, pixelBuffer.Length);
+			sourceBitmap.UnlockBits(sourceData);
+
+			double blue = 0.0;
+			double green = 0.0;
+			double red = 0.0;
+
+			int filterWidth = filterMatrix.GetLength(1);
+			int filterHeight = filterMatrix.GetLength(0);
+
+			int filterOffset = (filterWidth - 1) / 2;
+			int calcOffset = 0;
+
+			int byteOffset = 0;
+
+			for (int offsetY = filterOffset; offsetY <
+				sourceBitmap.Height - filterOffset; offsetY++)
+			{
+				for (int offsetX = filterOffset; offsetX <
+					sourceBitmap.Width - filterOffset; offsetX++)
+				{
+					blue = 0;
+					green = 0;
+					red = 0;
+
+					byteOffset = offsetY * sourceData.Stride + offsetX * 4;
+
+					for (int filterY = -filterOffset; filterY <= filterOffset; filterY++)
+					{
+						for (int filterX = -filterOffset; filterX <= filterOffset; filterX++)
+						{
+							calcOffset = byteOffset + (filterX * 4) + (filterY * sourceData.Stride);
+
+							blue += (double)(pixelBuffer[calcOffset]) * filterMatrix[filterY + filterOffset, filterX + filterOffset];
+							green += (double)(pixelBuffer[calcOffset + 1]) * filterMatrix[filterY + filterOffset, filterX + filterOffset];
+							red += (double)(pixelBuffer[calcOffset + 2]) * filterMatrix[filterY + filterOffset, filterX + filterOffset];
+						}
+					}
+
+					blue = factor * blue + bias;
+					green = factor * green + bias;
+					red = factor * red + bias;
+
+					blue = (blue > 255 ? 255 :
+						   (blue < 0 ? 0 :
+							blue));
+
+					green = (green > 255 ? 255 :
+							(green < 0 ? 0 :
+							 green));
+
+					red = (red > 255 ? 255 :
+						  (red < 0 ? 0 :
+						   red));
+
+					resultBuffer[byteOffset] = (byte)(blue);
+					resultBuffer[byteOffset + 1] = (byte)(green);
+					resultBuffer[byteOffset + 2] = (byte)(red);
+					resultBuffer[byteOffset + 3] = 255;
+				}
+			}
+
+			Bitmap resultBitmap = new Bitmap(sourceBitmap.Width, sourceBitmap.Height);
+
+			BitmapData resultData = resultBitmap.LockBits(new Rectangle(0, 0, resultBitmap.Width, resultBitmap.Height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+			Marshal.Copy(resultBuffer, 0, resultData.Scan0, resultBuffer.Length);
+			resultBitmap.UnlockBits(resultData);
+
+			return new Bitmap(resultBitmap).ToBitmapImage();
+		}
+
+		public static BitmapImage Sharpen(this Bitmap image)
+		{
+			Bitmap sharpenImage = new Bitmap(image.Width, image.Height);
+
+			int filterWidth = 3;
+			int filterHeight = 3;
+			int w = image.Width;
+			int h = image.Height;
+
+			double[,] filter = new double[filterWidth, filterHeight];
+
+			filter[0, 0] = filter[0, 1] = filter[0, 2] = filter[1, 0] = filter[1, 2] = filter[2, 0] = filter[2, 1] = filter[2, 2] = -1;
+			filter[1, 1] = 9;
+
+			double factor = 1.0;
+			double bias = 0.0;
+
+			Color[,] result = new Color[image.Width, image.Height];
+
+			for (int x = 0; x < w; ++x)
+			{
+				for (int y = 0; y < h; ++y)
+				{
+					double red = 0.0, green = 0.0, blue = 0.0;
+					Color imageColor = image.GetPixel(x, y);
+					
+					for (int filterX = 0; filterX < filterWidth; filterX++)
+					{
+						for (int filterY = 0; filterY < filterHeight; filterY++)
+						{
+							int imageX = (x - filterWidth / 2 + filterX + w) % w;
+							int imageY = (y - filterHeight / 2 + filterY + h) % h;
+
+							imageColor = image.GetPixel(imageX, imageY);
+							
+							red += imageColor.R * filter[filterX, filterY];
+							green += imageColor.G * filter[filterX, filterY];
+							blue += imageColor.B * filter[filterX, filterY];
+						}
+						int r = Math.Min(Math.Max((int)(factor * red + bias), 0), 255);
+						int g = Math.Min(Math.Max((int)(factor * green + bias), 0), 255);
+						int b = Math.Min(Math.Max((int)(factor * blue + bias), 0), 255);
+
+						result[x, y] = Color.FromArgb(r, g, b);
+					}
+				}
+			}
+
+			for (int i = 0; i < w; ++i)
+			{
+				for (int j = 0; j < h; ++j)
+				{
+					sharpenImage.SetPixel(i, j, result[i, j]);
+				}
+			}
+
+			return sharpenImage.ToBitmapImage();
 		}
 	}
 }

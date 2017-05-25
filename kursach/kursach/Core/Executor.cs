@@ -16,13 +16,12 @@ using System.Windows.Ink;
 using System.Runtime.InteropServices;
 using System.IO;
 using Microsoft.Win32;
+using kursach;
 
-namespace Maestro.UI
+namespace kursach.Core
 {
 	public class Executor
 	{
-		private const int DEFAULT_CANVAS_WIDTH = 600;
-		private const int DEFAULT_CANVAS_HEIGHT = 1000;
 		private const double MAX_SCALE = 4;
 		private const double MIN_SCALE = 0.25;
 		public Point CurrentPoint { get; set; }
@@ -38,13 +37,13 @@ namespace Maestro.UI
 		private Polyline pencil;
 		private const double ScaleRate = 1.1;
 		public bool boldText = false;
-		public bool italicText = false;
+		public bool italianText = false;
 		public bool underlinedText = false;
 		public string fontFamily = "Tahoma";
 		public string fontSize = "8";
-		public string text = "Ваш текст АБВГД";
+		public string text = "Multiline. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. The quick brown fox jumps over the lazy dog. War and peace. Keep going. Go on. For how long? Not long. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
 
-		private Stack<UIElement> lastAddedUiEls = new Stack<UIElement>();
+		//private Stack<UIElement> lastAddedUiEls = new Stack<UIElement>();
 
 		public void CleanShapes()
 		{
@@ -55,37 +54,26 @@ namespace Maestro.UI
 			pencil = null;
 		}
 
-		public void ClearCanvas(ref Canvas canvas, ref ScaleTransform scale)
-		{
-			canvas.Children.Clear();
-			canvas.Width = DEFAULT_CANVAS_HEIGHT;
-			canvas.Height = DEFAULT_CANVAS_WIDTH;
-			scale.ScaleX = 1;
-			scale.ScaleY = 1;
-			canvas.UpdateLayout();
-		}
-
-		public void DrawWithPencil(ref Canvas canvas, Point mouseCursorPoint)
+		public void DrawWithPencil(CanvasController canvasController, Point mouseCursorPoint)
 		{
 			this.StartPoint = mouseCursorPoint;
 			this.pencil = new Polyline();
 			this.pencil.Stroke = new SolidColorBrush(this.Color);
 			this.pencil.StrokeThickness = this.Thickness;
-			canvas.Children.Add(this.pencil);
-			lastAddedUiEls.Push(this.pencil);
+			//canvasController.GetActualCanvas().Children.Add(this.pencil);
+			canvasController.UpdateCanvas(this.pencil);
 		}
 
-		public void Erase(ref Canvas canvas, Point mouseCursorPoint)
+		public void Erase(CanvasController canvasController, Point mouseCursorPoint)
 		{
 			this.StartPoint = mouseCursorPoint;
 			this.eraser = new Polyline();
 			this.eraser.Stroke = new SolidColorBrush(Colors.White);
 			this.eraser.StrokeThickness = 10;
-			canvas.Children.Add(this.eraser);
-			lastAddedUiEls.Push(this.eraser);
+			canvasController.UpdateCanvas(this.eraser);
 		}
 
-		public void DrawWithLine(ref Canvas canvas, Point mouseCursorPoint)
+		public void DrawWithLine(CanvasController canvasController, Point mouseCursorPoint)
 		{
 			line = new Line();
 			line.X1 = mouseCursorPoint.X;
@@ -94,11 +82,10 @@ namespace Maestro.UI
 			line.Y2 = line.Y1 + 1;
 			line.StrokeThickness = this.Thickness;
 			line.Stroke = new SolidColorBrush(this.Color);
-			canvas.Children.Add(line);
-			lastAddedUiEls.Push(this.line);
+			canvasController.UpdateCanvas(line);
 		}
 
-		public void DrawWithRectangle(ref Canvas canvas, Point mouseCursorPoint)
+		public void DrawWithRectangle(CanvasController canvasController, Point mouseCursorPoint, bool toFill = false)
 		{
 			rectangle = new Rectangle();
 			X1 = mouseCursorPoint.X;
@@ -109,11 +96,14 @@ namespace Maestro.UI
 			rectangle.Height = Y2 - Y1;
 			rectangle.StrokeThickness = this.Thickness;
 			rectangle.Stroke = new SolidColorBrush(this.Color);
-			canvas.Children.Add(rectangle);
-			lastAddedUiEls.Push(rectangle);
+			if (toFill)
+			{
+				rectangle.Fill = new SolidColorBrush(this.Color);
+			}
+			canvasController.UpdateCanvas(rectangle);
 		}
 
-		public void DrawWithEllipse(ref Canvas canvas, Point mouseCursorPoint)
+		public void DrawWithEllipse(CanvasController canvasController, Point mouseCursorPoint, bool toFill = false)
 		{
 			ellipse = new Ellipse();
 			X1 = mouseCursorPoint.X;
@@ -124,8 +114,11 @@ namespace Maestro.UI
 			ellipse.Height = Y2 - Y1;
 			ellipse.StrokeThickness = this.Thickness;
 			ellipse.Stroke = new SolidColorBrush(this.Color);
-			canvas.Children.Add(ellipse);
-			lastAddedUiEls.Push(ellipse);
+			if(toFill)
+			{
+				ellipse.Fill = new SolidColorBrush(this.Color);
+			}
+			canvasController.UpdateCanvas(ellipse);
 		}
 
 		public void HoldPressedPencilAndMove(Point mouseCursorPoint)
@@ -194,14 +187,6 @@ namespace Maestro.UI
 			}
 		}
 
-		public void Undo(ref Canvas canvas)
-		{
-			if (lastAddedUiEls.Count > 0)
-			{
-				canvas.Children.Remove(lastAddedUiEls.Pop());
-			}
-		}
-
 		public void ZoomIn(ref ScaleTransform canvasScale, ref Canvas canvas)
 		{
 			if (canvasScale.ScaleX * ScaleRate < MAX_SCALE && canvasScale.ScaleY * ScaleRate < MAX_SCALE)
@@ -220,7 +205,7 @@ namespace Maestro.UI
 			}
 		}
 
-		public void DrawText(object sender, Point point, ref Canvas canvas)
+		public void DrawText(object sender, Point point, CanvasController canvasController)
 		{
 			TextBlock textBlock = new TextBlock();
 			textBlock.Text = text;
@@ -236,7 +221,7 @@ namespace Maestro.UI
 			{
 				textBlock.FontWeight = FontWeights.Bold;
 			}
-			if (italicText)
+			if (italianText)
 			{
 				textBlock.FontStyle = FontStyles.Italic;
 			}
@@ -247,18 +232,17 @@ namespace Maestro.UI
 			textBlock.Foreground = new SolidColorBrush(this.Color);
 			Canvas.SetLeft(textBlock, point.X);
 			Canvas.SetTop(textBlock, point.Y);
-			canvas.Children.Add(textBlock);
-			lastAddedUiEls.Push(textBlock);
+			canvasController.UpdateCanvas(textBlock);
 		}
 
-		public void MakeFloodFill(ref Canvas canvas, Point canvasMousePoint)
+		public void MakeFloodFill(CanvasController canvasController, Point canvasMousePoint)
 		{
-			System.Drawing.Bitmap image = Utils.GetBitmapFromCanvas(ref canvas);
+			System.Drawing.Bitmap image = Utils.GetBitmapFromCanvas(canvasController.GetActualCanvas());
 			int width = image.Width;
 			int height = image.Height;
 			System.Drawing.Color replacementColor = System.Drawing.Color.FromArgb(this.Color.A, this.Color.R, this.Color.G, this.Color.B);
 			Point node = canvasMousePoint;
-			System.Drawing.Color targetColor = Utils.GetPixelDrawingColor(ref canvas, canvasMousePoint);
+			System.Drawing.Color targetColor = Utils.GetPixelDrawingColor(canvasController.GetActualCanvas(), canvasMousePoint);
 			int target = targetColor.ToArgb();
 			if (targetColor != replacementColor)
 			{
@@ -307,8 +291,7 @@ namespace Maestro.UI
 				} while (noMorePixelsLeft);
 				Image img = new Image();
 				img.Source = Utils.BitmapToImageSource(image);
-				canvas.Children.Add(img);
-				lastAddedUiEls.Push(img);
+				canvasController.UpdateCanvas(img);
 			}
 		}
 	}

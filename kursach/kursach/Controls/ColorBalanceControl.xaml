@@ -7,27 +7,28 @@
         Icon="/Images/лого.png"
         mc:Ignorable="d"
         Closed="WindowClosed"
-        Title="Баланс цвета" Height="225.241" Width="350.586">
-    <Grid Background="#FF9E9E9E">
-        <Label Content="Красный" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        Title="Баланс цвета" Height="287.241" Width="355.586">
+    <Grid Background="White">
 
-        <DockPanel VerticalAlignment="Top" Margin="10,41,10,0">
-            <TextBox Text="{Binding ElementName=RedSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Name="RedSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="RedSlider_changed"  />
+        <DockPanel VerticalAlignment="Top" Margin="10,10,10,0">
+            <Label Content="Красный" HorizontalAlignment="Left"  VerticalAlignment="Bottom"/>
+            <!--<TextBox Text="{Binding ElementName=RedSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />-->
+            <Slider Name="RedSlider" Style="{StaticResource MaterialDesignDiscreteSlider}" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="RedSlider_changed" HorizontalContentAlignment="Right"  />
         </DockPanel>
 
-        <Label Content="Зелёный" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top"/>
+        <DockPanel VerticalAlignment="Top" Margin="10,66,10,0">
+            <Label Content="Зелёный" HorizontalAlignment="Left"  VerticalAlignment="Bottom"/>
 
-        <DockPanel VerticalAlignment="Top" Margin="10,97,10,0">
-            <TextBox Text="{Binding ElementName=GreenSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Name="GreenSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="GreenSlider_Changed"  />
+            <!--<TextBox Text="{Binding ElementName=GreenSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />-->
+            <Slider Name="GreenSlider" Style="{StaticResource MaterialDesignDiscreteSlider}" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="GreenSlider_Changed" Height="54" HorizontalContentAlignment="Right"  />
         </DockPanel>
 
-        <Label Content="Синий" HorizontalAlignment="Left" Margin="10,127,0,0" VerticalAlignment="Top"/>
 
-        <DockPanel VerticalAlignment="Top" Margin="10,153,10,0">
-            <TextBox Text="{Binding ElementName=BlueSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />
-            <Slider Name="BlueSlider" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="BlueSlider_Changed"  />
+        <DockPanel VerticalAlignment="Top" Margin="10,125,10,0">
+            <Label Content="Синий" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="58"/>
+            <!--<TextBox Text="{Binding ElementName=BlueSlider, Path=Value, UpdateSourceTrigger=PropertyChanged}" DockPanel.Dock="Right" TextAlignment="Right" Width="40" />-->
+            <Slider Name="BlueSlider" Style="{StaticResource MaterialDesignDiscreteSlider}" Minimum="0" Maximum="255" Value="0" TickPlacement="BottomRight" TickFrequency="5" IsSnapToTickEnabled="True" ValueChanged="BlueSlider_Changed" Height="54" HorizontalContentAlignment="Right" Width="266"  />
         </DockPanel>
+        <Button Content="Отмена" Name="CancelButton" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="10,204,0,0" Click="CancelButton_Click"/>
     </Grid>
 </Window>

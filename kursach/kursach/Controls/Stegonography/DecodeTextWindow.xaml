@@ -6,8 +6,12 @@
         xmlns:local="clr-namespace:kursach.Controls"
         mc:Ignorable="d"
         Icon="/Images/лого.png"
-        Title="Расшифровать текст" Height="300" Width="300" Background="#FF9E9E9E">
+        Title="Расшифрованный текст" Height="166.203" Width="294.774" Background="White">
     <Grid>
-        <TextBox Name ="ResultText" HorizontalAlignment="Left" Height="249" Margin="10,10,0,0" TextWrapping="Wrap" Text="Result" VerticalAlignment="Top" Width="272"/>
+        <TextBox Name ="ResultText"
+                 TextWrapping="Wrap" VerticalAlignment="Stretch"
+                 AcceptsReturn="True"                 
+                 VerticalScrollBarVisibility="Auto"
+                 Height="103" Margin="10,15,10,10"/>
     </Grid>
 </Window>
