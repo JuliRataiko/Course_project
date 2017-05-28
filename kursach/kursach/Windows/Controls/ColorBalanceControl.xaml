@@ -4,7 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
-        Icon="/Images/лого.png"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Resources/logo.png"
         mc:Ignorable="d"
         Closed="WindowClosed"
         Title="Баланс цвета" Height="287.241" Width="355.586">

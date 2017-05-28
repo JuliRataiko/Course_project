@@ -12,11 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Windows.Ink;
-using System.Runtime.InteropServices;
-using System.IO;
-using Microsoft.Win32;
-using kursach;
+using kursach.ImageProcessing;
 
 namespace kursach.Core
 {
@@ -39,10 +35,9 @@ namespace kursach.Core
 		public bool boldText = false;
 		public bool italianText = false;
 		public bool underlinedText = false;
-		public string fontFamily = "Tahoma";
-		public string fontSize = "8";
-		public string text = "Multiline. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. The quick brown fox jumps over the lazy dog. War and peace. Keep going. Go on. For how long? Not long. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
-
+		public string FontFamily = "Tahoma";
+		public string FontSize = "8";
+		public string Text = "Пример текста АБВ";
 		//private Stack<UIElement> lastAddedUiEls = new Stack<UIElement>();
 
 		public void CleanShapes()
@@ -208,10 +203,10 @@ namespace kursach.Core
 		public void DrawText(object sender, Point point, CanvasController canvasController)
 		{
 			TextBlock textBlock = new TextBlock();
-			textBlock.Text = text;
+			textBlock.Text = Text;
 			try
 			{
-				textBlock.FontSize = Double.Parse(fontSize);
+				textBlock.FontSize = Double.Parse(FontSize);
 			}
 			catch (Exception)
 			{
@@ -289,9 +284,8 @@ namespace kursach.Core
 					}
 					else noMorePixelsLeft = false;
 				} while (noMorePixelsLeft);
-				Image img = new Image();
-				img.Source = Utils.BitmapToImageSource(image);
-				canvasController.UpdateCanvas(img);
+
+				canvasController.UpdateCanvas((BitmapSource)image.ToBitmapImage());
 			}
 		}
 	}

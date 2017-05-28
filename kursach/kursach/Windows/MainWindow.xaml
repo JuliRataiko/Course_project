@@ -1,0 +1,56 @@
+﻿<Window x:Class="kursach.MainWindow"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     WindowStartupLocation="CenterScreen"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Browsing" Height="800" Width="1000" Icon="/Resources/logo.png" ResizeMode="CanResize" Background="#FFFAFAFA">
+
+    <DockPanel>
+        <Menu x:Name="menuBar" Width="Auto" Height="35" VerticalAlignment="Top" HorizontalContentAlignment="Stretch" DockPanel.Dock="Top" Background="#FF0097A7" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="White">
+            <MenuItem Header="ФАЙЛ" Height="35" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="White" >
+                <MenuItem x:Name="Open_item" Header="Открыть" Click="Open_item_Click" />
+                <Separator/>
+                <MenuItem x:Name="Quit_item" Header="Выход" Click="Quit_item_Click"  />
+            </MenuItem>
+            <MenuItem Header="РЕДАКТИРОВАТЬ" Height="35" Click="Edit_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>
+            <!--<MenuItem Header="ПОМОЩЬ" Height="35" Click="Help_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>-->
+            <!--<Button Content="Button"  VerticalAlignment="Center" HorizontalAlignment="Right" Height="25" HorizontalContentAlignment="Right" Width="41" Padding="5,4"/>-->
+
+        </Menu>
+        <ListBox Name="ImageList" ItemsSource="{Binding ImageList}" ScrollViewer.HorizontalScrollBarVisibility="Hidden" SelectionChanged="SelectedAnotherImage" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+            <ListBox.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="DarkRed"/>
+            </ListBox.Resources>
+
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Width="100" Height="100" Focusable="False">
+                        <Image Source="{Binding Path}" Stretch="UniformToFill" Focusable="True" />
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Margin="1,1,1,0">
+
+            <Button x:Name="left" VerticalAlignment="Center" HorizontalAlignment="Left" Background="{x:Null}" Click="Left_Click" HorizontalContentAlignment="Left" BorderBrush="{x:Null}" MouseEnter="Left_MouseEnter" MouseLeave="Left_MouseLeave" Margin="0,10" Panel.ZIndex="1" Height="713" Width="411" >
+                <Image Source="/Resources/Cyan_Arrow_Left.png" Height="158" HorizontalAlignment="Left" Width="34"/>
+            </Button>
+
+            <Button x:Name="right" VerticalAlignment="Center" HorizontalAlignment="Right" Background="{x:Null}" Height="713" Width="512" Click="Right_Click" HorizontalContentAlignment="Right" BorderBrush="{x:Null}" MouseEnter="Right_MouseEnter" MouseLeave="Right_MouseLeave" Margin="0,10" Panel.ZIndex="1" >
+                <Image Source="/Resources/Cyan_Arrow_Right.png" Height="164" HorizontalAlignment="Right" Width="34" />
+            </Button>
+
+            <materialDesign:Card Name="ViewedPhotoCard" Margin="30,10" materialDesign:ShadowAssist.ShadowDepth="Depth5" HorizontalContentAlignment="Center" HorizontalAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Padding="0">
+                <Image Name="ViewedPhoto"/>
+            </materialDesign:Card>
+        </Grid>
+    </DockPanel>
+</Window>

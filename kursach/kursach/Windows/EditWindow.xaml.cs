@@ -17,6 +17,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.ComponentModel;
+using System.Threading;
+using System.Windows.Threading;
 
 namespace kursach
 {
@@ -31,20 +34,69 @@ namespace kursach
 		private ImageDetails originalImageDetails;
 		const double ScaleRate = 1.1;
 		private CanvasController CanvasController { get; set; }
+		private EditWindowViewModel viewModel;
+
+		private static BusyWindow busyWindow;
+		private Thread busyWindowThread;
 
 		public NewWindow(ImageDetails originalImageDetails)
 		{
 			InitializeComponent();
+			viewModel = new EditWindowViewModel();
+			this.DataContext = viewModel;
 			this.originalImageDetails = originalImageDetails;
 			var image = new BitmapImage(new Uri(originalImageDetails.Path));
 			this.originalImage = image;
 			currentCanvasImage = image;
 			MainCanvas.Width = image.Width;
 			MainCanvas.Height = image.Height;
-			CanvasController = new CanvasController(this);
+			CanvasController = new CanvasController(MainCanvas);
 			CanvasController.UpdateCanvas(currentCanvasImage);
+			InitBusyThread();
 		}
 
+		private void InitBusyThread()
+		{
+			busyWindowThread = new Thread(new ThreadStart(() =>
+			{
+				Dispatcher.Run();
+			}));
+
+			busyWindowThread.SetApartmentState(ApartmentState.STA);
+			busyWindowThread.IsBackground = true;
+			busyWindowThread.Start();
+		}
+
+		private void ShowBusyWindow()
+		{
+			Dispatcher.FromThread(busyWindowThread).Invoke(() =>
+			{
+				busyWindow = new BusyWindow();
+				busyWindow.Show();
+			});
+		}
+
+		private void CloseBusyWindow()
+		{
+			Dispatcher.FromThread(busyWindowThread).Invoke(() =>
+			{
+				if (busyWindow != null)
+				{
+					busyWindow.Close();
+				}
+			});
+		}
+
+		private void InvokeActionWithBusyIndicator(Action action)
+		{
+			ShowBusyWindow();
+			action.Invoke();
+			CloseBusyWindow();
+		}
+
+		/// <summary>
+		/// Canvas accessor.
+		/// </summary>
 		public Canvas Canvas
 		{
 			get
@@ -59,32 +111,44 @@ namespace kursach
 
 		private void Black_wight_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ConvertToGrayscale();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ConvertToGrayscale();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void DiscardChangesItem_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = originalImage;
-			MainCanvas.Children.Clear();
-			MainCanvas.Width = originalImage.Width;
-			MainCanvas.Height = originalImage.Height;
-			CanvasController.UndoAllChanges(originalImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = originalImage;
+				MainCanvas.Children.Clear();
+				MainCanvas.Width = originalImage.Width;
+				MainCanvas.Height = originalImage.Height;
+				CanvasController.UndoAllChanges(originalImage);
+			});
 		}
 
 		private void Inversion_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ReverseImage();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ReverseImage();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void Sepia_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ChangeSepia();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ChangeSepia();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void Contrast_Click(object sender, RoutedEventArgs e)
@@ -97,9 +161,12 @@ namespace kursach
 
 		private void Illumination_item_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).NormalizeIllumination();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).NormalizeIllumination();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void Color_balance_Click(object sender, RoutedEventArgs e)
@@ -111,9 +178,12 @@ namespace kursach
 
 		public void PrepareCanvasForFiltering()
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		public void ChangeBrightnessAndContrast(int brightnessValue, int contrastValue)
@@ -124,8 +194,11 @@ namespace kursach
 
 		public void UpdateCanvasAfterFiltering()
 		{
-			currentCanvasImage = tempImage;
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = tempImage;
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		public void ChangeColorBalance(int red, int green, int blue)
@@ -141,6 +214,8 @@ namespace kursach
 			controlPane.ShowDialog();
 		}
 
+		#region Stegonography
+
 		public void EncodeText(string text)
 		{
 			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).EncodeText(text);
@@ -151,6 +226,8 @@ namespace kursach
 		{
 			return currentCanvasImage.DecodeText();
 		}
+
+		#endregion
 
 		private void Out_item_Click(object sender, RoutedEventArgs e)
 		{
@@ -198,7 +275,8 @@ namespace kursach
 
 		private void canvas_MouseEnter(object sender, MouseEventArgs e)
 		{
-			Mouse.OverrideCursor = Cursors.Cross;
+			if (Utils.Tool != Utils.Tools.Arrow)
+				Mouse.OverrideCursor = Cursors.Cross;
 			MainCanvas.Focus();
 			//Info_panel.Position = Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas));
 		}
@@ -250,7 +328,10 @@ namespace kursach
 						break;
 
 					case Utils.Tools.Fill:
-						Utils.executor.MakeFloodFill(CanvasController, e.GetPosition(MainCanvas));
+						InvokeActionWithBusyIndicator(() =>
+						{
+							Utils.executor.MakeFloodFill(CanvasController, e.GetPosition(MainCanvas));
+						});
 						break;
 					case Utils.Tools.Text:
 						Utils.executor.DrawText(sender, e.GetPosition(MainCanvas), CanvasController);
@@ -333,8 +414,6 @@ namespace kursach
 						break;
 				}
 			}
-
-			//Info_panel.Position = (Utils.ComposePositionLabelContent(e.GetPosition(MainCanvas)));
 		}
 
 		#endregion
@@ -397,14 +476,20 @@ namespace kursach
 
 		private void RedoItem_Click(object sender, RoutedEventArgs e)
 		{
-			CanvasController.RedoChanges();
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
+			InvokeActionWithBusyIndicator(() =>
+			{
+				CanvasController.RedoChanges();
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
+			});
 		}
 
 		private void UndoItem_Click(object sender, RoutedEventArgs e)
 		{
-			CanvasController.UndoChanges();
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
+			InvokeActionWithBusyIndicator(() =>
+			{
+				CanvasController.UndoChanges();
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ToBitmapImage();
+			});
 		}
 
 		private void Save_as_item_Click(object sender, RoutedEventArgs e)
@@ -439,29 +524,38 @@ namespace kursach
 
 		private void RotateToLeftItem_Click(object sender, RoutedEventArgs e)
 		{
-			var canvas = Utils.GetBitmapFromCanvas(MainCanvas);
-			canvas.RotateFlip(RotateFlipType.Rotate270FlipNone);
-			currentCanvasImage = canvas.ToBitmapImage();
-			MainCanvas.Width = canvas.Width;
-			MainCanvas.Height = canvas.Height;
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				var canvas = Utils.GetBitmapFromCanvas(MainCanvas);
+				canvas.RotateFlip(RotateFlipType.Rotate270FlipNone);
+				currentCanvasImage = canvas.ToBitmapImage();
+				MainCanvas.Width = canvas.Width;
+				MainCanvas.Height = canvas.Height;
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void RotateToRightItem_Click(object sender, RoutedEventArgs e)
 		{
-			var canvas = Utils.GetBitmapFromCanvas(MainCanvas);
-			canvas.RotateFlip(RotateFlipType.Rotate90FlipNone);
-			currentCanvasImage = canvas.ToBitmapImage();
-			MainCanvas.Width = canvas.Width;
-			MainCanvas.Height = canvas.Height;
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				var canvas = Utils.GetBitmapFromCanvas(MainCanvas);
+				canvas.RotateFlip(RotateFlipType.Rotate90FlipNone);
+				currentCanvasImage = canvas.ToBitmapImage();
+				MainCanvas.Width = canvas.Width;
+				MainCanvas.Height = canvas.Height;
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void BlurItem_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ApplyBlur();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).ApplyBlur();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 
 		private void Quit_item_Click(object sender, RoutedEventArgs e)
@@ -487,9 +581,12 @@ namespace kursach
 
 		private void SharpenItem_Click(object sender, RoutedEventArgs e)
 		{
-			currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).Sharpen();
-			MainCanvas.Children.Clear();
-			CanvasController.UpdateCanvas(currentCanvasImage);
+			InvokeActionWithBusyIndicator(() =>
+			{
+				currentCanvasImage = Utils.GetBitmapFromCanvas(MainCanvas).Sharpen();
+				MainCanvas.Children.Clear();
+				CanvasController.UpdateCanvas(currentCanvasImage);
+			});
 		}
 	}
 }

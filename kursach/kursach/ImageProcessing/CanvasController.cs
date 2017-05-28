@@ -1,6 +1,7 @@
 ﻿using kursach.Core;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,13 +14,13 @@ namespace kursach
 {
 	public class CanvasController
 	{
-		private NewWindow ControlledWindow { get; set; }
+		private Canvas Canvas { get; set; }
 		private List<CanvasStateWithPrimitives> States { get; set; }
 		private int currentStateIndex = 0;
 
-		public CanvasController(NewWindow controlledWindow)
+		public CanvasController(Canvas canvas)
 		{
-			ControlledWindow = controlledWindow;
+			Canvas = canvas;
 			States = new List<CanvasStateWithPrimitives>();
 		}
 
@@ -43,7 +44,7 @@ namespace kursach
 					States.RemoveRange(currentStateIndex, States.Count - currentStateIndex - 1);
 				} 
 
-			States.Add(new CanvasStateWithPrimitives(ControlledWindow.Canvas.Clone(), new List<UIElement>()));
+			States.Add(new CanvasStateWithPrimitives(Canvas.Clone(), new List<UIElement>()));
 			currentStateIndex = States.Count - 1;
 			States[currentStateIndex].Canvas.Background = new ImageBrush { ImageSource = newImage };
 			SetupMainCanvas(States[currentStateIndex]);
@@ -57,7 +58,7 @@ namespace kursach
 					States.RemoveRange(currentStateIndex + 1, States.Count - currentStateIndex - 1);
 				}
 			
-			States.Add(new CanvasStateWithPrimitives (ControlledWindow.Canvas.Clone(), States.Count> 0? States.Last().Primitives.CloneCollection() : new List<UIElement>()));
+			States.Add(new CanvasStateWithPrimitives (Canvas.Clone(), States.Count> 0? States.Last().Primitives.CloneCollection() : new List<UIElement>()));
 			currentStateIndex = States.Count - 1;
 			States[currentStateIndex].Primitives.Add(newChild);
 			SetupMainCanvas(States[currentStateIndex]);
@@ -85,22 +86,27 @@ namespace kursach
 
 		public Canvas GetActualCanvas()
 		{
-			return ControlledWindow.Canvas;
+			return Canvas;
 		}
 
 		private void SetupMainCanvas(CanvasStateWithPrimitives canvasState)
 		{
-			ControlledWindow.Canvas.Width = canvasState.Canvas.Width;
-			ControlledWindow.Canvas.Height = canvasState.Canvas.Height;
-			ControlledWindow.Canvas.Background = canvasState.Canvas.Background;
-			ControlledWindow.Canvas.Children.Clear();
+			Canvas.Width = canvasState.Canvas.Width;
+			Canvas.Height = canvasState.Canvas.Height;
+			Canvas.Background = canvasState.Canvas.Background;
+			Canvas.Children.Clear();
 			for(int i = 0; i < canvasState.Primitives.Count; i++)
 			{
 				//var childCloned = canvas.Children[i].Clone();
-				//ControlledWindow.Canvas.Children.Add(childCloned);
+				//Canvas.Children.Add(childCloned);
 
-				ControlledWindow.Canvas.Children.Add(canvasState.Primitives[i]);
+				Canvas.Children.Add(canvasState.Primitives[i]);
 			}
+		}
+
+		internal void UpdateCanvas(object toBitmap)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

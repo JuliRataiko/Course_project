@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:kursach.Controls"
         mc:Ignorable="d"
-        Icon="/Images/лого.png"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Resources/logo.png"
         Title="Зашифровать текст" Height="173" Width="320">
     <Grid>
         <TextBox Name="TextBox"

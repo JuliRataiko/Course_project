@@ -160,5 +160,11 @@ namespace kursach
 		{
 			this.Close();
 		}
+
+		private void Help_Click(object sender, RoutedEventArgs e)
+		{
+			var newW = new HelpWindow();
+			newW.ShowDialog();
+		}
 	}
 }

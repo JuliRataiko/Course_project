@@ -6,8 +6,9 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         ResizeMode="NoResize"     
-        Icon="/Images/лого.png"
-        Title="Настройки текста" Height="198.162" Width="368.333" Closed="Window_Closed">
+        WindowStartupLocation="CenterScreen"
+        Icon="/Resources/logo.png"
+        Title="Настройки текста" Height="192.538" Width="368.333" Closed="Window_Closed">
     <Window.Resources>
         <Style
             TargetType="Button"
@@ -37,13 +38,6 @@
             <ComboBoxItem Content="24" HorizontalAlignment="Left" Width="118"/>
         </ComboBox>
         <ListBox SelectionMode="Extended" Style="{StaticResource MaterialDesignToolToggleFlatListBox}" Margin="193,7,10,0" Height="36" VerticalAlignment="Top">
-            <ListBox.ToolTip>
-                <StackPanel>
-                    <TextBlock Text="MaterialDesignToolToggleListBox" />
-                    <TextBlock Text="Multiple selection" />
-                    <TextBlock Text="ListBoxAssist.IsToggle allows more natural toggle behaviour" />
-                </StackPanel>
-            </ListBox.ToolTip>
             <ListBoxItem Name="BoldItem" ToolTip="Жирный">
                 <materialDesign:PackIcon Kind="FormatBold"/>
             </ListBoxItem>
@@ -58,13 +52,15 @@
         <!--<Button x:Name="BoldTextButton" Content="B"  Style="{StaticResource ClearStyle}" ToolTip="Жирный" Margin="210,15,0,0" VerticalAlignment="Top" Height="24" HorizontalAlignment="Left" Width="24" Click="BoldTextButton_Click"/>
         <Button x:Name="ItalicTextButton" Content="I"  Style="{StaticResource ClearStyle}" ToolTip="Курсив" HorizontalAlignment="Left" Margin="250,15,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="ItalicTextButton_Click"/>
         <Button x:Name="UnderlineTextButton" Content="U" Style="{StaticResource ClearStyle}" ToolTip="Подчеркнутый" HorizontalAlignment="Left" Margin="290,15,0,0" VerticalAlignment="Top" Width="24" Height="24" Click="UnderlineTextButton_Click"/>-->
-        <TextBox TextWrapping="Wrap" VerticalAlignment="Stretch" Margin="10,48,10,10"
+        <TextBox TextWrapping="Wrap" VerticalAlignment="Stretch" Margin="10,48,10,60"
                  Name="TextBox"
                  MinWidth="280"
                  AcceptsReturn="True"                 
                  VerticalScrollBarVisibility="Auto"
                  SpellCheck.IsEnabled="True"
                  materialDesign:HintAssist.Hint="Текст"/>
+        <Button Name="ResetButton"  Content="По умолчанию" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top" Width="135" Height="36" Click="ResetButton_Click"/>
+        <Button Name="ApplyButton" Content="Применить" HorizontalAlignment="Left" Margin="232,109,0,0" VerticalAlignment="Top" Width="109" Height="36" Click="ApplyButton_Click"/>
 
         <!--<TextBox x:Name="TextBox" TextWrapping="Wrap" Text="Ваш текст АБВГД" Margin="0,0,10,10" Height="113" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="317" BorderThickness="1" VerticalContentAlignment="Top"/>-->
     </Grid>

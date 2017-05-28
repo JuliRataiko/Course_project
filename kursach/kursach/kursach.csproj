@@ -88,34 +88,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CanvasController.cs" />
+    <Compile Include="Windows\BusyWindow.xaml.cs">
+      <DependentUpon>BusyWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImageProcessing\CanvasController.cs" />
+    <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\CanvasWithPrimitives.cs" />
-    <Compile Include="Controls\SettingsWindow.xaml.cs">
+    <Compile Include="Windows\Controls\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Executor.cs" />
     <Compile Include="Core\Utils.cs" />
-    <Page Include="Controls\BrightnessContrastWindow.xaml">
+    <Compile Include="Models\EditWindowViewModel.cs" />
+    <Page Include="Windows\BusyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SettingsWindow.xaml">
+    <Page Include="Windows\Controls\BrightnessContrastWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ColorBalanceControl.xaml">
+    <Page Include="Windows\Controls\SettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Stegonography\DecodeTextWindow.xaml">
+    <Page Include="Windows\Controls\ColorBalanceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Stegonography\EncodeTextWindow.xaml">
+    <Page Include="Windows\Controls\Stegonography\DecodeTextWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\Controls\Stegonography\EncodeTextWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -123,33 +136,36 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Controls\BrightnessContrastWindow.xaml.cs">
+    <Compile Include="Windows\Controls\BrightnessContrastWindow.xaml.cs">
       <DependentUpon>BrightnessContrastWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ColorBalanceControl.xaml.cs">
+    <Compile Include="Windows\Controls\ColorBalanceControl.xaml.cs">
       <DependentUpon>ColorBalanceControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Stegonography\DecodeTextWindow.xaml.cs">
+    <Compile Include="Windows\Controls\Stegonography\DecodeTextWindow.xaml.cs">
       <DependentUpon>DecodeTextWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Stegonography\EncodeTextWindow.xaml.cs">
+    <Compile Include="Windows\Controls\Stegonography\EncodeTextWindow.xaml.cs">
       <DependentUpon>EncodeTextWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ImageDetails.cs" />
+    <Compile Include="Windows\HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ImageDetails.cs" />
     <Compile Include="ImageProcessing\BitmapProcessor.cs" />
     <Compile Include="ImageProcessing\Steganography.cs" />
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NewWindow.xaml">
+    <Page Include="Windows\EditWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NewWindow.xaml.cs">
-      <DependentUpon>NewWindow.xaml</DependentUpon>
+    <Compile Include="Windows\EditWindow.xaml.cs">
+      <DependentUpon>EditWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -179,40 +195,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Images\Layers.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\layer_up.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\layer_down.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\mouse.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\pruning.png" />
-    <Resource Include="Images\gradient.png" />
-    <Resource Include="Images\filling.png" />
-    <Resource Include="Images\bitter.png" />
-    <Resource Include="Images\line.png" />
-    <Resource Include="Images\brush.png" />
-    <Resource Include="Images\text.png" />
-    <Resource Include="Images\squere.png" />
-    <Resource Include="Images\circle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\лого.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\left.png" />
-    <Resource Include="Images\right.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\left-blue.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Images\right-blue.png" />
+    <Resource Include="Resources\logo.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\color-picker.png" />
