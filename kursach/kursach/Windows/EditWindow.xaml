@@ -70,7 +70,6 @@
                     <MenuItem x:Name="Color_balance" Header="Цветовой баланс" Click="Color_balance_Click" />
                     <MenuItem x:Name="Inversion" Header="Инверсия" Click="Inversion_Click" />
                     <MenuItem x:Name="Black_wight" Header="Черно-белое" Click="Black_wight_Click" />
-                    <MenuItem x:Name="Sepia" Header="Сепия" Click="Sepia_Click"/>
                 </MenuItem>
                 <MenuItem x:Name="Stenograph_item" Header="Стенография">
                     <MenuItem x:Name="In_item" Header="Скрыть информацию" Click="In_item_Click" />
@@ -78,8 +77,9 @@
                 </MenuItem>
                 <MenuItem x:Name="Filter_item" Header="Фильтр">
                     <MenuItem x:Name="Illumination_item" Header="Нормализация освещения" Click="Illumination_item_Click" />
-                    <MenuItem x:Name="BlurItem" Header="Размытие" Click="BlurItem_Click" />
                     <MenuItem x:Name="SharpenItem" Header="Резкость" Click="SharpenItem_Click" />
+                    <MenuItem x:Name="BlurItem" Header="Размытие" Click="BlurItem_Click" />
+                    <MenuItem x:Name="Sepia" Header="Сепия" Click="Sepia_Click"/>
                 </MenuItem>
             </MenuItem>
         </Menu>

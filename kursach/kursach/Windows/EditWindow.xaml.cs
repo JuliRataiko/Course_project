@@ -497,7 +497,7 @@ namespace kursach
 			SaveFile();
 		}
 
-		private void SaveFile()
+		private bool SaveFile()
 		{
 			Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
 			dlg.FileName = "Untitled";
@@ -520,6 +520,12 @@ namespace kursach
 					}
 				}
 			}
+			else
+			{
+				return false;
+			}
+
+			return true;
 		}
 
 		private void RotateToLeftItem_Click(object sender, RoutedEventArgs e)
@@ -570,7 +576,7 @@ namespace kursach
 				MessageBoxResult messageBoxResult = MessageBox.Show("Есть несохраненные изменения. Сохранить изменения?", "Изменения", MessageBoxButton.YesNoCancel);
 				if (messageBoxResult == MessageBoxResult.Yes)
 				{
-					SaveFile();
+					e.Cancel = !SaveFile();
 				}
 				if (messageBoxResult == MessageBoxResult.Cancel)
 				{
