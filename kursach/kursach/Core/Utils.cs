@@ -26,47 +26,6 @@ namespace kursach.Core
 		public static event EventHandler ChangeInstrument;
 		public static event EventHandler ChangeColor;
 
-		// Используется для изменения порядка слоев 
-		public static int LayersCount { get; set; }
-
-		// Испольузется для именования новых слоев
-		public static int LayersIndexes { get; set; }
-
-		//private static Brush _color = Brushes.Black;
-		//public static Brush Color
-		//{
-		//	get
-		//	{
-		//		return _color;
-		//	}
-		//	set
-		//	{
-		//		_color = value;
-		//		ChangeColor(value, null);
-		//	}
-		//}
-
-		//private static Instruments _currentTool = Instruments.Arrow;
-		//public static Instruments CurrentTool
-		//{
-		//	get
-		//	{
-		//		return _currentTool;
-		//	}
-		//	set
-		//	{
-		//		_currentTool = value;
-		//		ChangeInstrument(value, null);
-		//	}
-		//}
-
-		private static Size _brushSize;
-		public static Size BrushSize
-		{
-			get { return _brushSize; }
-			set { _brushSize = value; }
-		}
-
 		public static BitmapImage BitmapToImageSource(System.Drawing.Bitmap bitmap)
 		{
 			using (MemoryStream memory = new MemoryStream())
@@ -134,16 +93,6 @@ namespace kursach.Core
 			return Utils.GetBitmapFromCanvas(canvas).GetPixel((int)point.X, (int)point.Y);
 		}
 
-		public static string ComposePositionLabelContent(Point position)
-		{
-			return "Позиция курсора: x:" + Math.Round(position.X, 2) + ", y:" + Math.Round(position.Y, 2);
-		}
-
-		public static string ComposeCanvaSizeLabelContent(double canvasWidth, double canvasHeight)
-		{
-			return "Размер изображения: " + canvasWidth + "x" + canvasHeight;
-		}
-
 		public static Canvas Clone(this Canvas source)
 		{
 			var newCanvas = new Canvas();
@@ -154,7 +103,6 @@ namespace kursach.Core
 			for (int i = 0; i < source.Children.Count; i++)
 			{
 				newCanvas.Children.Add(source.Children[i].Clone());
-				//newCanvas.Children.Add(source.Children[i]);
 			}
 
 			return newCanvas;

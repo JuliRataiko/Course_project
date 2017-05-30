@@ -92,14 +92,12 @@
       <DependentUpon>BusyWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="ImageProcessing\CanvasController.cs" />
-    <Compile Include="Core\BoolToVisibilityConverter.cs" />
     <Compile Include="Core\CanvasWithPrimitives.cs" />
     <Compile Include="Windows\Controls\SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Executor.cs" />
     <Compile Include="Core\Utils.cs" />
-    <Compile Include="Models\EditWindowViewModel.cs" />
     <Page Include="Windows\BusyWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

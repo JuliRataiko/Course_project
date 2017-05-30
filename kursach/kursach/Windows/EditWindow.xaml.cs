@@ -34,16 +34,13 @@ namespace kursach
 		private ImageDetails originalImageDetails;
 		const double ScaleRate = 1.1;
 		private CanvasController CanvasController { get; set; }
-		private EditWindowViewModel viewModel;
-
+		
 		private static BusyWindow busyWindow;
 		private Thread busyWindowThread;
 
 		public NewWindow(ImageDetails originalImageDetails)
 		{
 			InitializeComponent();
-			viewModel = new EditWindowViewModel();
-			this.DataContext = viewModel;
 			this.originalImageDetails = originalImageDetails;
 			var image = new BitmapImage(new Uri(originalImageDetails.Path));
 			this.originalImage = image;
