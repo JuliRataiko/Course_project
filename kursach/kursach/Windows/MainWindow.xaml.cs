@@ -41,6 +41,10 @@ namespace kursach
 			{
 				ViewedPhoto.Source = new BitmapImage(new Uri(openFileDialog.FileName));
 			}
+			else
+			{
+				return;
+			}
 
 			var directory = new FileInfo(openFileDialog.FileName).Directory;
 			string[] supportedExtensions = new[] { ".bmp", ".jpeg", ".jpg", ".png", ".tiff" };

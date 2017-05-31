@@ -10,49 +10,70 @@
         Title="Справка" Height="auto" Width="480.69">
     <DockPanel>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <Expander HorizontalAlignment="Stretch"
-                          Header="Панель инструментов" Margin="0,0,0,0">
-                    <StackPanel Orientation="Vertical"
+            <StackPanel Orientation="Vertical"
                             TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
                             Margin="24,8,24,16">
-                        <Image Source="/Resources/cyan/mouse.png" Height="43" Width="47"/>
-                        <TextBlock Text="Мышь" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                               TextWrapping="Wrap"/>
-                        
-                        <Image Source="/Resources/cyan/pencil.png" Height="43" Width="47"/>
-                        <TextBlock Text="Карандаш" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <Image Source="/Resources/cyan/mouse.png" Height="43" Width="47"/>
+                <TextBlock Text="Мышь" />
+                <TextBlock Opacity=".68" Text="Выбор этого инструмента из панели инструментов позволяет выключить предыдущий выбранный инструмент. Теперь это обычный курсор мыши, с которым невозможно совершить какие-либо изменения на редактируемом изображении."
                                TextWrapping="Wrap"/>
 
-                        <Image Source="/Resources/cyan/eraser-512.png" Height="43" Width="47"/>
-                        <TextBlock Text="Ластик" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <Image Source="/Resources/cyan/pencil.png" Height="43" Width="47"/>
+                <TextBlock Text="Карандаш" />
+                <TextBlock Opacity=".68" Text="Позволяет нарисовать произвольную линию выбранного цвета и толщины. Для рисования необходимо нажать и удерживать левую кнопку мыши."
                                TextWrapping="Wrap"/>
 
-                        <Image Source="/Resources/cyan/fill.png" Height="43" Width="47"/>
-                        <TextBlock Text="Заливка" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <Image Source="/Resources/cyan/eraser-512.png" Height="43" Width="47"/>
+                <TextBlock Text="Ластик" />
+                <TextBlock Opacity=".68" Text="Инструмент «Ластик» предназначен для очистки небольшой области рисунка. Ластик стирает за собой все. Для удаления изображения ластиком, удерживайте левую кнопку мыши. "
                                TextWrapping="Wrap"/>
 
-                        <Image Source="/Resources/cyan/mouse.png" Height="43" Width="47"/>
-                        <TextBlock Text="Текст" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <Image Source="/Resources/cyan/fill.png" Height="43" Width="47"/>
+                <TextBlock Text="Заливка" />
+                <TextBlock Opacity=".68" Text="Позволяет изменить область изображения одного цвета, применив к ней выбранный цвет. Для этого необходимо кликнуть левой кнопкой мыши по выбранной области."
                                TextWrapping="Wrap"/>
 
-                    </StackPanel>
-                </Expander>
-                <Expander HorizontalAlignment="Stretch"
-                          Header="Работа с Изображением">
-                    <StackPanel Orientation="Vertical"
-                            TextBlock.Foreground="{DynamicResource MaterialDesignBody}"
-                            Margin="24,8,24,16">
-                        <TextBlock Text="Your Content" />
-                        <TextBlock Opacity=".68" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+                <Image Source="/Resources/cyan/text.png" Height="43" Width="47"/>
+                <TextBlock Text="Текст" />
+                <TextBlock Opacity=".68" Text="Нанесение выбранного текста на изображение. По нажатию на данную кнопку, предлагается выбрать настройки отображения желаемого текста. После закрытия окна настройки необходимо выбрать позицию, на которой будет отображен текст. По нажатию на левую кнопку мыши, текст будет отображен."
                                TextWrapping="Wrap"/>
-                    </StackPanel>
-                </Expander>
+
+                <Image Source="/Resources/cyan/line.png" Height="43" Width="47"/>
+                <TextBlock Text="Линия" />
+                <TextBlock Opacity=".68" Text="Рисование прямой линии выбранного цвета и толщины. Для рисования линии необоходимо нажать левую кнопку мыши, удерживая ее выбрать необходимую длину и направление линии, и отпустив кнопку завершить рисование."
+                               TextWrapping="Wrap"/>
+
+                <Image Source="/Resources/cyan/ellipse.png" Height="43" Width="47"/>
+                <TextBlock Text="Эллипс" />
+                <TextBlock Opacity=".68" Text="Рисование эллипса выбранного цвета и толщины. Для рисования необоходимо нажать левую кнопку мыши, удерживая ее выбрать необходимый радиус эллипса, и отпустив кнопку завершить рисование."
+                               TextWrapping="Wrap"/>
+
+                <Image Source="/Resources/cyan/filled_ellipse.png" Height="43" Width="47"/>
+                <TextBlock Text="Эллипс с заливкой" />
+                <TextBlock Opacity=".68" Text="Рисование эллипса с заливкой выбранного цвета и толщины. Для рисования необоходимо нажать левую кнопку мыши, удерживая ее выбрать необходимый радиус эллипса, и отпустив кнопку завершить рисование."
+                               TextWrapping="Wrap"/>
+
+                <Image Source="/Resources/cyan/rectangle.png" Height="43" Width="47"/>
+                <TextBlock Text="Прямоугольник" />
+                <TextBlock Opacity=".68" Text="Рисование прямоугольника выбранного цвета и толщины. Для рисования необоходимо нажать левую кнопку мыши, удерживая ее выбрать необходимую длину прямоугольника, и отпустив кнопку завершить рисование."
+                               TextWrapping="Wrap"/>
+
+                <Image Source="/Resources/cyan/filled_rectagnle.png" Height="43" Width="47"/>
+                <TextBlock Text="Прямоугольник с заливкой" />
+                <TextBlock Opacity=".68" Text="Рисование прямоугольника с заливкой выбранного цвета и толщины. Для рисования необоходимо нажать левую кнопку мыши, удерживая ее выбрать необходимую длину прямоугольника, и отпустив кнопку завершить рисование."
+                               TextWrapping="Wrap"/>
+
+
+                <Image Source="/Resources/w.png" Height="43" Width="47"/>
+                <TextBlock Text="Приблизить изображение" />
+                <TextBlock Opacity=".68" Text="При нажатии на кнопку W, можно приблизить изображение."
+                               TextWrapping="Wrap"/>
+
+                <Image Source="/Resources/q.png" Height="43" Width="47"/>
+                <TextBlock Text="Отдалить изображение" />
+                <TextBlock Opacity=".68" Text="При нажатии на кнопку Q, можно отдалить изображение."
+                               TextWrapping="Wrap"/>
+
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

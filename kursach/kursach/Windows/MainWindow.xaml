@@ -19,7 +19,7 @@
                 <MenuItem x:Name="Quit_item" Header="Выход" Click="Quit_item_Click"  />
             </MenuItem>
             <MenuItem Header="РЕДАКТИРОВАТЬ" Height="35" Click="Edit_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>
-            <!--<MenuItem Header="ПОМОЩЬ" Height="35" Click="Help_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>-->
+            <MenuItem Header="ПОМОЩЬ" Height="35" Click="Help_Click" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center" HorizontalAlignment="Right" Margin="0" RenderTransformOrigin="0.5,0.5"/>
             <!--<Button Content="Button"  VerticalAlignment="Center" HorizontalAlignment="Right" Height="25" HorizontalContentAlignment="Right" Width="41" Padding="5,4"/>-->
 
         </Menu>

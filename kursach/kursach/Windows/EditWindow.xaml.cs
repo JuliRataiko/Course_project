@@ -594,5 +594,11 @@ namespace kursach
 				CanvasController.UpdateCanvas(currentCanvasImage);
 			});
 		}
+
+		private void Help_Click(object sender, RoutedEventArgs e)
+		{
+			var newW = new HelpWindow();
+			newW.ShowDialog();
+		}
 	}
 }
