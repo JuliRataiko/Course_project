@@ -39,14 +39,10 @@
         <Color x:Key="Color1">#FF2E2E2E</Color>
         <Color x:Key="Color2">#FF2E2E2E</Color>
         <Color x:Key="Color3">#FF2E2E2E</Color>
-        <conv:BoolToVisibilityConverter x:Key="boolConverter"/>
         </Window.Resources>
-    <!--<Window.DataContext>
-        <local:EditWindowViewModel/>
-    </Window.DataContext>-->
+
     <DockPanel>
-         <!--<ProgressBar Name="WaitingBar" Visibility="{Binding IsBusy, Converter={StaticResource boolConverter}}" DockPanel.Dock="Bottom" IsIndeterminate="True" Foreground="#FF0097A7"></ProgressBar>-->
-        <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF0097A7" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
+         <Menu x:Name="menuBar" DockPanel.Dock="Top" Width="Auto" Height="35" VerticalAlignment="Top" Margin="0" Background="#FF0097A7" FontFamily="Segoe UI Semibold" FontSize="16" Foreground="#DDFFFFFF">
             <MenuItem Header="ФАЙЛ" Height="35" >
                 <MenuItem x:Name="Save_as_item" Header="Сохранить" Click="Save_as_item_Click" />
                 <Separator/>
